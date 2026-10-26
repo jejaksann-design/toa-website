@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Mushaf Blank TOA: uji hafalan Al-Qur'an per halaman, rekam bacaanmu, lalu dengarkan murattal para masyayikh.">
+<meta property="og:title" content="Mushaf Blank TOA">
+<meta property="og:description" content="Mushaf Blank TOA: uji hafalan Al-Qur'an per halaman, rekam bacaanmu, lalu dengarkan murattal para masyayikh.">
+<meta property="og:image" content="/img/logo-512.png">
+<meta name="theme-color" content="#2F6A23">
+<link rel="icon" type="image/png" href="/img/logo-160.png">
+<link rel="apple-touch-icon" href="/img/logo-512.png">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Mushaf Blank TOA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Amiri+Quran&family=Amiri:wght@400;700&display=swap">
+<style>
+/* Layout: one column app with three screens (menu, question, result); mushaf text set large and right-to-left */
+:root{
+  --bg:#F3F6F1; --paper:#FBFCF9; --ink:#17231A; --muted:#55645A; --line:#D7E0D4;
+  --green:#2F6A23; --green-soft:#E3EDE2; --gold:#B8871A; --gold-soft:#F4EAD0;
+  --good:#2F6A23; --good-soft:#DDEED8; --bad:#A63A1E; --bad-soft:#F6E1DA;
+  --display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mushaf:"Amiri Quran", "Amiri", "Traditional Arabic", serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1610; --paper:#141F17; --ink:#E6EDE5; --muted:#9DAE9F; --line:#26372A;
+  --green:#8CC77E; --green-soft:#1A2B1E; --gold:#E2B84A; --gold-soft:#2A2414;
+  --good:#8CC77E; --good-soft:#1C3320; --bad:#F09A80; --bad-soft:#3A1E17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1610; --paper:#141F17; --ink:#E6EDE5; --muted:#9DAE9F; --line:#26372A;
+  --green:#8CC77E; --green-soft:#1A2B1E; --gold:#E2B84A; --gold-soft:#2A2414;
+  --good:#8CC77E; --good-soft:#1C3320; --bad:#F09A80; --bad-soft:#3A1E17; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.wrap{max-width:640px;margin:0 auto;padding-block:32px 64px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.1;text-wrap:balance}
+h1{font-size:clamp(2.4rem,9vw,3.4rem)}
+h1 em,h2 em{color:var(--green)}
+h2{font-size:2rem}
+h3{font-size:1.45rem}
+p{margin:0}
+.eyebrow{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.muted{color:var(--muted)}
+.brand{display:flex;align-items:center;gap:10px;font-size:.85rem}
+.brand svg,.brand img{width:34px;height:34px;flex:none;object-fit:contain}
+.brand b{letter-spacing:.04em}
+header{display:flex;flex-direction:column;gap:12px}
+button{font:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.modes{display:flex;flex-direction:column;gap:12px}
+.mode{display:grid;grid-template-columns:3.2rem 1fr;gap:14px;align-items:center;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;cursor:pointer}
+.mode:hover{border-color:var(--green)}
+.mode .ic{width:3.2rem;height:3.2rem;border-radius:14px;background:var(--green-soft);display:grid;place-items:center;font-family:var(--mushaf);font-size:1.5rem;color:var(--green);line-height:1}
+.mode b{display:block;font-weight:600;font-size:1.05rem}
+.mode span{font-size:.9rem;color:var(--muted)}
+.juz{display:flex;flex-direction:column;gap:14px}
+.juzgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.juzgrid button{border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:10px 0;font-weight:600;cursor:pointer;font-variant-numeric:tabular-nums}
+.juzgrid button:hover{border-color:var(--green);color:var(--green)}
+.juzgrid button.hot{background:var(--gold-soft);border-color:var(--gold)}
+@media (max-width:380px){.juzgrid{grid-template-columns:repeat(5,1fr)}}
+.link{background:none;border:0;color:var(--green);font-weight:600;cursor:pointer;padding:4px 0;align-self:flex-start}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.88rem;color:var(--muted)}
+.prog{height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+.prog div{height:100%;background:var(--green);border-radius:999px;transition:width .3s}
+.qbox{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.qbox .ref{font-size:.82rem;font-weight:600;color:var(--gold);letter-spacing:.04em}
+.qtext{font-size:1.15rem;font-weight:600;line-height:1.5}
+.ayah{font-family:var(--mushaf);direction:rtl;text-align:right;font-size:clamp(1.55rem,6vw,1.95rem);line-height:2.15;color:var(--ink)}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--green)}
+.opt.ar{font-family:var(--mushaf);direction:rtl;text-align:right;font-size:clamp(1.3rem,5vw,1.6rem);line-height:2;padding-block:10px}
+.opt:disabled{cursor:default}
+.opt.good{border-color:var(--good);background:var(--good-soft)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.fb{border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.fb.good{background:var(--good-soft)}.fb.bad{background:var(--bad-soft)}
+.fb b{font-weight:700}
+.fb .ayah{font-size:1.4rem;line-height:2}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--green);color:var(--paper);border:0;border-radius:999px;padding:14px 22px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center}
+.btn.ghost{background:transparent;color:var(--green);border:1.5px solid var(--green)}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.result{background:var(--paper);border:1.5px solid var(--green);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px;text-align:center}
+.result .score{font-family:var(--display);font-size:4.5rem;line-height:1;font-variant-numeric:tabular-nums}
+.result .score small{font-size:1.6rem;color:var(--muted)}
+.result .ar{font-family:"Amiri",serif;font-size:1.5rem;color:var(--green);line-height:1.8}
+.stars{display:flex;justify-content:center;gap:6px}
+.stars i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.stars i.on{background:var(--gold)}
+.cta{background:var(--gold-soft);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.cta p{font-size:.95rem}
+.ebook{background:var(--paper);border:1.5px solid var(--gold);border-radius:18px;padding:20px;display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:start}
+.ebook .cv{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:10px}
+.ebook .more{grid-column:1/-1;display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:12px}
+.ebook .more>span{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#eb-more{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+#eb-more a{display:block;border-radius:8px;overflow:hidden}
+#eb-more img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;display:block}
+#eb-more a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.ebook .tx{display:flex;flex-direction:column;gap:8px;min-width:0}
+.ebook .tx b.h{font-family:var(--display);font-weight:400;font-size:1.35rem;line-height:1.15}
+.ebook .tx p{font-size:.93rem;color:var(--muted)}
+.ebook .tx p i{color:var(--ink);font-style:normal;font-weight:600}
+@media (max-width:380px){.ebook{grid-template-columns:1fr}.ebook .cv{width:140px}}
+.daily{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--gold-soft);border:1.5px solid var(--gold);border-radius:20px;padding:20px;cursor:pointer;width:100%}
+.daily:hover{transform:translateY(-1px)}
+.daily b{font-family:var(--display);font-weight:400;font-size:1.8rem;line-height:1.1}
+.daily .sub{font-size:.92rem;color:var(--muted)}
+.daily .go{align-self:flex-start;margin-top:4px;background:var(--green);color:var(--paper);border-radius:999px;padding:8px 16px;font-weight:600;font-size:.9rem}
+.dots{display:flex;gap:6px;font-size:1.3rem;line-height:1;min-height:1.3rem}
+.dsteps{display:flex;gap:8px}
+.dsteps span{flex:1;height:8px;border-radius:999px;background:var(--line)}
+.dsteps span.ok{background:var(--good)}.dsteps span.no{background:var(--bad)}.dsteps span.now{background:var(--gold)}
+.dres{background:var(--paper);border:1.5px solid var(--green);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px;text-align:center}
+.dres .emo{font-size:2.6rem;letter-spacing:.15em;line-height:1.2}
+.dres .chain{font-size:.9rem;color:var(--muted)}
+.stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stats4 div{background:var(--green-soft);border-radius:12px;padding:10px 4px;display:flex;flex-direction:column}
+.stats4 b{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stats4 span{font-size:.7rem;color:var(--muted);line-height:1.3}
+.cd{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.3rem}
+.sharebox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem;white-space:pre-wrap;text-align:left;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:12px;user-select:all}
+.tescard{display:grid;grid-template-columns:3.2rem 1fr;gap:14px;align-items:center;text-align:left;background:var(--green-soft);border:1.5px solid var(--green);border-radius:18px;padding:18px;cursor:pointer;width:100%}
+.tescard .ic{width:3.2rem;height:3.2rem;border-radius:14px;background:var(--paper);display:grid;place-items:center;font-weight:700;color:var(--green);font-size:1.3rem}
+.tescard b{display:block;font-weight:600;font-size:1.05rem}
+.tescard span.d{font-size:.9rem;color:var(--muted)}
+.tin{font:inherit;font-size:1.3rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px;width:100%;max-width:220px}
+.tin:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.tf{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.92rem}
+.tf input{font:inherit;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;width:100%}
+.pres{background:var(--paper);border:1.5px solid var(--green);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.pres .pn{font-family:var(--display);font-size:2.1rem;line-height:1.1}
+.pres .code{align-self:flex-start;background:var(--gold-soft);border-radius:999px;padding:4px 12px;font-weight:700;font-size:.85rem;letter-spacing:.04em}
+.pres ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.pres dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.92rem;background:var(--green-soft);border-radius:12px;padding:12px 14px}
+.pres dt{font-weight:600}.pres dd{margin:0;color:var(--muted)}
+.alt{border:1px dashed var(--line);border-radius:14px;padding:14px;font-size:.92rem;display:flex;flex-direction:column;gap:8px}
+.plcard{display:grid;grid-template-columns:3.2rem 1fr;gap:14px;align-items:center;text-align:left;background:var(--paper);border:1.5px solid var(--gold);border-radius:18px;padding:18px;cursor:pointer;width:100%}
+.plcard .ic{width:3.2rem;height:3.2rem;border-radius:14px;background:var(--gold-soft);display:grid;place-items:center;font-size:1.3rem}
+.plcard b{display:block;font-weight:600;font-size:1.05rem}
+.plcard span.d{font-size:.9rem;color:var(--muted)}
+.pgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.pgrid button{border:1.5px solid var(--line);background:var(--paper);border-radius:12px;padding:10px 0;font-weight:600;cursor:pointer;font-variant-numeric:tabular-nums}
+.pgrid button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--paper)}
+@media (max-width:380px){.pgrid{grid-template-columns:repeat(5,1fr)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 14px;font-weight:600;font-size:.9rem;cursor:pointer}
+.chips button[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.who{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:.92rem}
+.who b{color:var(--green)}
+.kl{display:flex;flex-direction:column;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px}
+.kl ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.kl li{display:grid;grid-template-columns:2rem 1fr auto;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line)}
+.kl li:last-child{border-bottom:0}
+.kl li .r{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;text-align:center}
+.kl li:nth-child(1) .r{color:var(--gold)}
+.kl li .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.kl li .p{font-variant-numeric:tabular-nums;font-weight:700;color:var(--green)}
+.kl li.me{background:var(--green-soft);border-radius:10px}
+.kl .empty{color:var(--muted);font-size:.92rem;padding:8px 0}
+.vc{font-size:.85rem;color:var(--muted);text-align:center}
+.nm{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.nm[hidden]{display:none!important}
+.nmc{background:var(--paper);border-radius:20px;padding:22px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:12px}
+.nmc .tin{max-width:none;font-size:1.1rem}
+.psum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.psum div{background:var(--green-soft);border-radius:12px;padding:10px 6px;display:flex;flex-direction:column;text-align:center}
+.psum b{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.psum span{font-size:.74rem;color:var(--muted)}
+.days{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.day{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 2px;border-bottom:1px solid var(--line)}
+.day input{width:22px;height:22px;accent-color:var(--green)}
+.day .w{min-width:0}
+.day .w b{display:block;font-weight:600;font-size:.95rem}
+.day .w span{font-size:.84rem;color:var(--muted)}
+.day .m{font-size:.82rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.day.done .w b{text-decoration:line-through;color:var(--muted)}
+.warn{font-size:.88rem;background:var(--gold-soft);border-radius:12px;padding:12px 14px}
+.loading{color:var(--muted);text-align:center;padding:30px 0}
+footer{font-size:.8rem;color:var(--muted);text-align:center}
+.card{display:flex;flex-direction:column;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px}
+.sel{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:12px;width:100%}
+.juzgrid .on{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.vtop{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;gap:8px;position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0}
+.nav{width:44px;height:44px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font-size:1.5rem;line-height:1;cursor:pointer;color:var(--ink)}
+.nav:disabled{opacity:.35}
+.ayat{display:flex;flex-direction:column;gap:10px}
+.bas{font-family:var(--mushaf);text-align:center;font-size:1.5rem;color:var(--green);direction:rtl}
+.sh{text-align:center;font-weight:600;color:var(--gold);font-size:.9rem;letter-spacing:.06em;margin-top:6px}
+.ay{display:grid;grid-template-columns:1fr 2.2rem;gap:10px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:right;font:inherit;color:inherit;width:100%}
+.ay .no{width:2.2rem;height:2.2rem;border-radius:999px;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;font-variant-numeric:tabular-nums}
+.ay .tx{font-family:var(--mushaf);direction:rtl;font-size:clamp(1.4rem,5.5vw,1.8rem);line-height:2.1}
+.ay.closed .tx{color:var(--muted)}
+.ay .blank{display:inline-block;height:.9em;border-radius:6px;background:var(--line);vertical-align:middle}
+.ay.playing{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-soft)}
+.err{color:var(--bad);font-size:.9rem;margin:0}
+#r-btn.recording{background:var(--bad)}
+
+</style>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/" style="color:inherit;text-decoration:none"><img src="/img/logo-160.png" alt="" width="34" height="34"><b>TAHFIDZ ONLINE ACADEMY</b></a>
+  </header>
+
+  <section style="display:flex;flex-direction:column;gap:10px">
+    <span class="eyebrow">Mushaf Blank · Tes Hafalan Mandiri</span>
+    <h1>Uji hafalanmu, <em>halaman demi halaman.</em></h1>
+    <p class="muted">Teks ayat ditutup. Baca dari hafalanmu, rekam suaramu, lalu buka ayatnya untuk mencocokkan. Setelah itu dengarkan murattal halaman ini dari para masyayikh.</p>
+  </section>
+
+  <section class="card" id="picker">
+    <div class="chips" id="pk-tabs"><button type="button" data-t="juz" aria-pressed="true">Pilih per Juz</button><button type="button" data-t="surah" aria-pressed="false">Pilih per Surah</button></div>
+    <div id="pk-juz">
+      <div class="juzgrid" id="jgrid"></div>
+      <div id="pgwrap" hidden style="display:flex;flex-direction:column;gap:8px;margin-top:14px"><b id="pg-h"></b><div class="juzgrid" id="pgrid2"></div></div>
+    </div>
+    <div id="pk-surah" hidden>
+      <label class="muted" for="ssel" style="font-size:.9rem">Surah</label>
+      <select id="ssel" class="sel"></select>
+      <button class="btn" type="button" id="sgo" style="align-self:flex-start">Buka surah</button>
+    </div>
+  </section>
+
+  <section id="viewer" hidden style="display:flex;flex-direction:column;gap:16px">
+    <div class="vtop">
+      <button class="nav" type="button" id="prev" aria-label="Halaman sebelumnya">‹</button>
+      <div style="text-align:center"><b id="v-h"></b><div class="muted" id="v-s" style="font-size:.88rem"></div></div>
+      <button class="nav" type="button" id="next" aria-label="Halaman berikutnya">›</button>
+    </div>
+    <div class="chips" id="tools">
+      <button type="button" id="t-next">Buka ayat berikutnya</button>
+      <button type="button" id="t-all">Buka semua</button>
+      <button type="button" id="t-none">Tutup semua</button>
+      <button type="button" id="t-hint" aria-pressed="false">Petunjuk kata pertama</button>
+    </div>
+    <div id="ayat" class="ayat"></div>
+
+    <div class="card" id="rec">
+      <b>🎙️ Rekam bacaanmu</b>
+      <p class="muted" style="font-size:.9rem;margin:0">Rekaman hanya tersimpan di HP-mu, tidak diunggah ke mana pun.</p>
+      <div class="row" style="align-items:center"><button class="btn" type="button" id="r-btn">Mulai rekam</button><span id="r-time" class="muted" style="font-variant-numeric:tabular-nums"></span></div>
+      <div id="r-out" hidden style="display:flex;flex-direction:column;gap:10px">
+        <audio id="r-audio" controls style="width:100%"></audio>
+        <div class="row"><button class="btn ghost" type="button" id="r-share">Kirim rekaman</button><a class="btn ghost" id="r-dl" download>Simpan rekaman</a></div>
+      </div>
+      <p id="r-err" class="err" hidden></p>
+    </div>
+
+    <div class="card" id="mur">
+      <b>🎧 Murattal halaman ini</b>
+      <label class="muted" for="qsel" style="font-size:.9rem">Qari</label>
+      <select id="qsel" class="sel"></select>
+      <div class="row" style="align-items:center"><button class="btn" type="button" id="m-btn">▶ Putar halaman ini</button><span id="m-now" class="muted" style="font-size:.9rem"></span></div>
+      <div class="chips"><button type="button" id="m-rep" aria-pressed="false">🔁 Ulangi halaman</button><button type="button" id="m-show" aria-pressed="true">Buka ayat saat diputar</button></div>
+      <p id="m-err" class="err" hidden></p>
+    </div>
+  </section>
+
+  <section class="card" style="background:var(--green-soft);border-color:var(--green)">
+    <b>Mau ada yang menyimak setoranmu?</b>
+    <p style="margin:0">Gabung halaqah Tahfidz Online Academy: setoran rutin, dibimbing musyrif/musyrifah, bisa dari mana saja.</p>
+    <div class="row"><a class="btn" href="/#program">Lihat program TOA</a><a class="btn ghost" href="/kuis/">Main Kuis TOA</a></div>
+  </section>
+
+  <footer>Teks Al-Qur'an: Tanzil Quran Text (Utsmani), tanzil.net, lisensi CC BY 3.0, tanpa perubahan. Audio murattal: everyayah.com.</footer>
+</div>
+
+<script>
+var QARI=[['Alafasy_128kbps','Mishary Rasyid Alafasy (Kuwait)'],['Husary_64kbps','Mahmud Khalil Al-Husary (Mesir)'],['Minshawy_Murattal_128kbps','Muhammad Shiddiq Al-Minsyawi (Mesir)'],['Abdurrahmaan_As-Sudais_192kbps','Abdurrahman As-Sudais (Makkah)'],['Saood_ash-Shuraym_128kbps','Su\'ud Asy-Syuraim (Makkah)'],['Abu_Bakr_Ash-Shaatree_128kbps','Abu Bakr Asy-Syatiri (Saudi)'],['Hani_Rifai_192kbps','Hani Ar-Rifa\'i (Saudi)']];
+var AR='٠١٢٣٤٥٦٧٨٩';function arn(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
+function E(id){return document.getElementById(id)}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+var Q=null,PG={"pages":[[1,1,1],[2,1,1],[2,6,1],[2,17,1],[2,25,1],[2,30,1],[2,38,1],[2,49,1],[2,58,1],[2,62,1],[2,70,1],[2,77,1],[2,84,1],[2,89,1],[2,94,1],[2,102,1],[2,106,1],[2,113,1],[2,120,1],[2,127,1],[2,135,1],[2,142,2],[2,146,2],[2,154,2],[2,164,2],[2,170,2],[2,177,2],[2,182,2],[2,187,2],[2,191,2],[2,197,2],[2,203,2],[2,211,2],[2,216,2],[2,220,2],[2,225,2],[2,231,2],[2,234,2],[2,238,2],[2,246,2],[2,249,2],[2,253,3],[2,257,3],[2,260,3],[2,265,3],[2,270,3],[2,275,3],[2,282,3],[2,283,3],[3,1,3],[3,10,3],[3,16,3],[3,23,3],[3,30,3],[3,38,3],[3,46,3],[3,53,3],[3,62,3],[3,71,3],[3,78,3],[3,84,3],[3,92,3],[3,101,4],[3,109,4],[3,116,4],[3,122,4],[3,133,4],[3,141,4],[3,149,4],[3,154,4],[3,158,4],[3,166,4],[3,174,4],[3,181,4],[3,187,4],[3,195,4],[4,1,4],[4,7,4],[4,12,4],[4,15,4],[4,20,4],[4,24,5],[4,27,5],[4,34,5],[4,38,5],[4,45,5],[4,52,5],[4,60,5],[4,66,5],[4,75,5],[4,80,5],[4,87,5],[4,92,5],[4,95,5],[4,102,5],[4,106,5],[4,114,5],[4,122,5],[4,128,5],[4,135,5],[4,141,5],[4,148,6],[4,155,6],[4,163,6],[4,171,6],[4,176,6],[5,3,6],[5,6,6],[5,10,6],[5,14,6],[5,18,6],[5,24,6],[5,32,6],[5,37,6],[5,42,6],[5,46,6],[5,51,6],[5,58,6],[5,65,6],[5,71,6],[5,77,6],[5,83,7],[5,90,7],[5,96,7],[5,104,7],[5,109,7],[5,114,7],[6,1,7],[6,9,7],[6,19,7],[6,28,7],[6,36,7],[6,45,7],[6,53,7],[6,60,7],[6,69,7],[6,74,7],[6,82,7],[6,91,7],[6,95,7],[6,102,7],[6,111,8],[6,119,8],[6,125,8],[6,132,8],[6,138,8],[6,143,8],[6,147,8],[6,152,8],[6,158,8],[7,1,8],[7,12,8],[7,23,8],[7,31,8],[7,38,8],[7,44,8],[7,52,8],[7,58,8],[7,68,8],[7,74,8],[7,82,8],[7,88,9],[7,96,9],[7,105,9],[7,121,9],[7,131,9],[7,138,9],[7,144,9],[7,150,9],[7,156,9],[7,160,9],[7,164,9],[7,171,9],[7,179,9],[7,188,9],[7,196,9],[8,1,9],[8,9,9],[8,17,9],[8,26,9],[8,34,9],[8,41,10],[8,46,10],[8,53,10],[8,62,10],[8,70,10],[9,1,10],[9,7,10],[9,14,10],[9,21,10],[9,27,10],[9,32,10],[9,37,10],[9,41,10],[9,48,10],[9,55,10],[9,62,10],[9,69,10],[9,73,10],[9,80,10],[9,87,10],[9,94,11],[9,100,11],[9,107,11],[9,112,11],[9,118,11],[9,123,11],[10,1,11],[10,7,11],[10,15,11],[10,21,11],[10,26,11],[10,34,11],[10,43,11],[10,54,11],[10,62,11],[10,71,11],[10,79,11],[10,89,11],[10,98,11],[10,107,11],[11,6,12],[11,13,12],[11,20,12],[11,29,12],[11,38,12],[11,46,12],[11,54,12],[11,63,12],[11,72,12],[11,82,12],[11,89,12],[11,98,12],[11,109,12],[11,118,12],[12,5,12],[12,15,12],[12,23,12],[12,31,12],[12,38,12],[12,44,12],[12,53,13],[12,64,13],[12,70,13],[12,79,13],[12,87,13],[12,96,13],[12,104,13],[13,1,13],[13,6,13],[13,14,13],[13,19,13],[13,29,13],[13,35,13],[13,43,13],[14,6,13],[14,11,13],[14,19,13],[14,25,13],[14,34,13],[14,43,13],[15,1,14],[15,16,14],[15,32,14],[15,52,14],[15,71,14],[15,91,14],[16,7,14],[16,15,14],[16,27,14],[16,35,14],[16,43,14],[16,55,14],[16,65,14],[16,73,14],[16,80,14],[16,88,14],[16,94,14],[16,103,14],[16,111,14],[16,119,14],[17,1,15],[17,8,15],[17,18,15],[17,28,15],[17,39,15],[17,50,15],[17,59,15],[17,67,15],[17,76,15],[17,87,15],[17,97,15],[17,105,15],[18,5,15],[18,16,15],[18,21,15],[18,28,15],[18,35,15],[18,46,15],[18,54,15],[18,62,15],[18,75,16],[18,84,16],[18,98,16],[19,1,16],[19,12,16],[19,26,16],[19,39,16],[19,52,16],[19,65,16],[19,77,16],[19,96,16],[20,13,16],[20,38,16],[20,52,16],[20,65,16],[20,77,16],[20,88,16],[20,99,16],[20,114,16],[20,126,16],[21,1,17],[21,11,17],[21,25,17],[21,36,17],[21,45,17],[21,58,17],[21,73,17],[21,82,17],[21,91,17],[21,102,17],[22,1,17],[22,6,17],[22,16,17],[22,24,17],[22,31,17],[22,39,17],[22,47,17],[22,56,17],[22,65,17],[22,73,17],[23,1,18],[23,18,18],[23,28,18],[23,43,18],[23,60,18],[23,75,18],[23,90,18],[23,105,18],[24,1,18],[24,11,18],[24,21,18],[24,28,18],[24,32,18],[24,37,18],[24,44,18],[24,54,18],[24,59,18],[24,62,18],[25,3,18],[25,12,18],[25,21,19],[25,33,19],[25,44,19],[25,56,19],[25,68,19],[26,1,19],[26,20,19],[26,40,19],[26,61,19],[26,84,19],[26,112,19],[26,137,19],[26,160,19],[26,184,19],[26,207,19],[27,1,19],[27,14,19],[27,23,19],[27,36,19],[27,45,19],[27,56,20],[27,64,20],[27,77,20],[27,89,20],[28,6,20],[28,14,20],[28,22,20],[28,29,20],[28,36,20],[28,44,20],[28,51,20],[28,60,20],[28,71,20],[28,78,20],[28,85,20],[29,7,20],[29,15,20],[29,24,20],[29,31,20],[29,39,20],[29,46,21],[29,53,21],[29,64,21],[30,6,21],[30,16,21],[30,25,21],[30,33,21],[30,42,21],[30,51,21],[31,1,21],[31,12,21],[31,20,21],[31,29,21],[32,1,21],[32,12,21],[32,21,21],[33,1,21],[33,7,21],[33,16,21],[33,23,21],[33,31,22],[33,36,22],[33,44,22],[33,51,22],[33,55,22],[33,63,22],[34,1,22],[34,8,22],[34,15,22],[34,23,22],[34,32,22],[34,40,22],[34,49,22],[35,4,22],[35,12,22],[35,19,22],[35,31,22],[35,39,22],[35,45,22],[36,13,22],[36,28,23],[36,41,23],[36,55,23],[36,71,23],[37,1,23],[37,25,23],[37,52,23],[37,77,23],[37,103,23],[37,127,23],[37,154,23],[38,1,23],[38,17,23],[38,27,23],[38,43,23],[38,62,23],[38,84,23],[39,6,23],[39,11,23],[39,22,23],[39,32,24],[39,41,24],[39,48,24],[39,57,24],[39,68,24],[39,75,24],[40,8,24],[40,17,24],[40,26,24],[40,34,24],[40,41,24],[40,50,24],[40,59,24],[40,67,24],[40,78,24],[41,1,24],[41,12,24],[41,21,24],[41,30,24],[41,39,24],[41,47,25],[42,1,25],[42,11,25],[42,16,25],[42,23,25],[42,32,25],[42,45,25],[42,52,25],[43,11,25],[43,23,25],[43,34,25],[43,48,25],[43,61,25],[43,74,25],[44,1,25],[44,19,25],[44,40,25],[45,1,25],[45,14,25],[45,23,25],[45,33,25],[46,6,26],[46,15,26],[46,21,26],[46,29,26],[47,1,26],[47,12,26],[47,20,26],[47,30,26],[48,1,26],[48,10,26],[48,16,26],[48,24,26],[48,29,26],[49,5,26],[49,12,26],[50,1,26],[50,16,26],[50,36,26],[51,7,26],[51,31,27],[51,52,27],[52,15,27],[52,32,27],[53,1,27],[53,27,27],[53,45,27],[54,7,27],[54,28,27],[54,50,27],[55,17,27],[55,41,27],[55,68,27],[56,17,27],[56,51,27],[56,77,27],[57,4,27],[57,12,27],[57,19,27],[57,25,27],[58,1,28],[58,7,28],[58,12,28],[58,22,28],[59,4,28],[59,10,28],[59,17,28],[60,1,28],[60,6,28],[60,12,28],[61,6,28],[62,1,28],[62,9,28],[63,5,28],[64,1,28],[64,10,28],[65,1,28],[65,6,28],[66,1,28],[66,8,28],[67,1,29],[67,13,29],[67,27,29],[68,16,29],[68,43,29],[69,9,29],[69,35,29],[70,11,29],[70,40,29],[71,11,29],[72,1,29],[72,14,29],[73,1,29],[73,20,29],[74,18,29],[74,48,29],[75,20,29],[76,6,29],[76,26,29],[77,20,29],[78,1,30],[78,31,30],[79,16,30],[80,1,30],[81,1,30],[82,1,30],[83,7,30],[83,35,30],[85,1,30],[86,1,30],[87,16,30],[89,1,30],[89,24,30],[91,1,30],[92,15,30],[95,1,30],[97,1,30],[98,8,30],[100,10,30],[103,1,30],[106,1,30],[109,1,30],[112,1,30]],"names":["Al-Faatiha","Al-Baqara","Aal-i-Imraan","An-Nisaa","Al-Maaida","Al-An'aam","Al-A'raaf","Al-Anfaal","At-Tawba","Yunus","Hud","Yusuf","Ar-Ra'd","Ibrahim","Al-Hijr","An-Nahl","Al-Israa","Al-Kahf","Maryam","Taa-Haa","Al-Anbiyaa","Al-Hajj","Al-Muminoon","An-Noor","Al-Furqaan","Ash-Shu'araa","An-Naml","Al-Qasas","Al-Ankaboot","Ar-Room","Luqman","As-Sajda","Al-Ahzaab","Saba","Faatir","Yaseen","As-Saaffaat","Saad","Az-Zumar","Al-Ghaafir","Fussilat","Ash-Shura","Az-Zukhruf","Ad-Dukhaan","Al-Jaathiya","Al-Ahqaf","Muhammad","Al-Fath","Al-Hujuraat","Qaaf","Adh-Dhaariyat","At-Tur","An-Najm","Al-Qamar","Ar-Rahmaan","Al-Waaqia","Al-Hadid","Al-Mujaadila","Al-Hashr","Al-Mumtahana","As-Saff","Al-Jumu'a","Al-Munaafiqoon","At-Taghaabun","At-Talaaq","At-Tahrim","Al-Mulk","Al-Qalam","Al-Haaqqa","Al-Ma'aarij","Nooh","Al-Jinn","Al-Muzzammil","Al-Muddaththir","Al-Qiyaama","Al-Insaan","Al-Mursalaat","An-Naba","An-Naazi'aat","Abasa","At-Takwir","Al-Infitaar","Al-Mutaffifin","Al-Inshiqaaq","Al-Burooj","At-Taariq","Al-A'laa","Al-Ghaashiya","Al-Fajr","Al-Balad","Ash-Shams","Al-Lail","Ad-Dhuhaa","Ash-Sharh","At-Tin","Al-Alaq","Al-Qadr","Al-Bayyina","Az-Zalzala","Al-Aadiyaat","Al-Qaari'a","At-Takaathur","Al-Asr","Al-Humaza","Al-Fil","Quraish","Al-Maa'un","Al-Kawthar","Al-Kaafiroon","An-Nasr","Al-Masad","Al-Ikhlaas","Al-Falaq","An-Naas"]},IDX={},P=0,OPEN=[],HINT=false;
+// --- picker
+var jg=E('jgrid');for(var j=1;j<=30;j++){(function(j){var b=document.createElement('button');b.type='button';b.textContent=j;b.setAttribute('aria-label','Juz '+j);b.addEventListener('click',function(){pickJuz(j,b)});jg.appendChild(b)})(j)}
+function pickJuz(j,btn){jg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===btn)});
+  var g=E('pgrid2');g.textContent='';E('pg-h').textContent='Juz '+j+': pilih halaman';
+  PG.pages.forEach(function(x,i){if(x[2]!==j)return;var b=document.createElement('button');b.type='button';b.textContent=i+1;b.setAttribute('aria-label','Halaman '+(i+1));b.addEventListener('click',function(){openPage(i+1)});g.appendChild(b)});
+  E('pgwrap').hidden=false;E('pgwrap').scrollIntoView({behavior:'smooth',block:'nearest'})}
+E('pk-tabs').querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){
+  E('pk-tabs').querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+  E('pk-juz').hidden=b.dataset.t!=='juz';E('pk-surah').hidden=b.dataset.t!=='surah';E('pk-surah').style.display=b.dataset.t==='surah'?'flex':'';E('pk-surah').style.flexDirection='column';E('pk-surah').style.gap='10px'})});
+PG.names.forEach(function(n,i){var o=document.createElement('option');o.value=i+1;o.textContent=(i+1)+'. '+n;E('ssel').appendChild(o)});
+E('sgo').addEventListener('click',function(){var s=+E('ssel').value;for(var i=PG.pages.length-1;i>=0;i--){var x=PG.pages[i];if(x[0]<s||(x[0]===s&&x[1]<=1)){openPage(i+1);return}}});
+QARI.forEach(function(q){var o=document.createElement('option');o.value=q[0];o.textContent=q[1];E('qsel').appendChild(o)});
+if(ls('toa-qari'))E('qsel').value=ls('toa-qari');
+E('qsel').addEventListener('change',function(){ls('toa-qari',E('qsel').value);stopAudio()});
+// --- data
+function loadQ(){if(Q)return Promise.resolve();return fetch('/kuis/quran.json').then(function(r){return r.json()}).then(function(d){Q=d;d.v.forEach(function(v,i){IDX[v[0]*1000+v[1]]=i})})}
+function range(p){var a=PG.pages[p-1],b=PG.pages[p],i0=IDX[a[0]*1000+a[1]],i1=b?IDX[b[0]*1000+b[1]]:Q.v.length;return [i0,i1]}
+function splitBas(v){var w=v[3].split(' ');if(v[1]===1&&v[0]!==1&&v[0]!==9)return [w.slice(0,4).join(' '),w.slice(4).join(' ')];return [null,v[3]]}
+// --- viewer
+function openPage(p){E('viewer').hidden=false;E('ayat').innerHTML='<p class="muted">Membuka mushaf…</p>';
+  loadQ().then(function(){render(p);E('viewer').scrollIntoView({behavior:'smooth'})}).catch(function(){E('ayat').innerHTML='<p class="err">Teks Al-Qur\'an belum termuat. Periksa koneksi, lalu coba lagi.</p>'})}
+function render(p){stopAudio();P=p;ls('toa-blank-page',p);var r=range(p),A=E('ayat');A.textContent='';OPEN=[];
+  var surs={};for(var i=r[0];i<r[1];i++)surs[Q.v[i][0]]=1;
+  E('v-h').textContent='Halaman '+p+' · Juz '+PG.pages[p-1][2];E('v-s').textContent=Object.keys(surs).map(function(s){return Q.names[s-1]}).join(' · ');
+  E('prev').disabled=p<=1;E('next').disabled=p>=604;
+  for(var i=r[0];i<r[1];i++){(function(i){var v=Q.v[i],sp=splitBas(v);
+    if(v[1]===1){var h=document.createElement('div');h.className='sh';h.textContent='Surah '+Q.names[v[0]-1];A.appendChild(h);
+      if(sp[0]){var bs=document.createElement('div');bs.className='bas';bs.lang='ar';bs.textContent=sp[0];A.appendChild(bs)}}
+    var b=document.createElement('button');b.type='button';b.className='ay closed';b.dataset.i=i;
+    var tx=document.createElement('span');tx.className='tx';tx.lang='ar';var no=document.createElement('span');no.className='no';no.textContent=v[1];
+    b.append(tx,no);b._t=sp[1];b.addEventListener('click',function(){setOpen(b,b.classList.contains('closed'))});A.appendChild(b);OPEN.push(b);paint(b)})(i)}
+}
+function paint(b){var tx=b.firstChild,closed=b.classList.contains('closed');tx.textContent='';
+  if(!closed){tx.textContent=b._t+' ﴿'+arn(b.lastChild.textContent)+'﴾';return}
+  var w=b._t.split(' ');if(HINT){tx.append(w[0]+' ')}
+  var n=Math.max(1,Math.min(6,Math.round(w.length/3)));for(var k=0;k<n;k++){var s=document.createElement('span');s.className='blank';s.style.width=(2.2+((k*37)%3))+'em';s.style.marginInline='.18em';tx.appendChild(s)}}
+function setOpen(b,o){b.classList.toggle('closed',!o);paint(b)}
+E('t-next').addEventListener('click',function(){var b=OPEN.filter(function(x){return x.classList.contains('closed')})[0];if(b){setOpen(b,true);b.scrollIntoView({behavior:'smooth',block:'center'})}});
+E('t-all').addEventListener('click',function(){OPEN.forEach(function(b){setOpen(b,true)})});
+E('t-none').addEventListener('click',function(){OPEN.forEach(function(b){setOpen(b,false)})});
+E('t-hint').addEventListener('click',function(){HINT=!HINT;E('t-hint').setAttribute('aria-pressed',HINT);OPEN.forEach(paint)});
+E('prev').addEventListener('click',function(){if(P>1)render(P-1)});E('next').addEventListener('click',function(){if(P<604)render(P+1)});
+// --- recorder
+var MR=null,CH=[],T0=0,TM=null,BLOB=null;
+function fmt(s){return Math.floor(s/60)+':'+('0'+Math.floor(s%60)).slice(-2)}
+E('r-btn').addEventListener('click',function(){
+  if(MR&&MR.state==='recording'){MR.stop();return}
+  E('r-err').hidden=true;
+  if(!navigator.mediaDevices||!window.MediaRecorder){E('r-err').textContent='Browser ini belum bisa merekam. Coba buka di Safari atau Chrome terbaru.';E('r-err').hidden=false;return}
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){
+    var mt=MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported('audio/mp4')?'audio/mp4':'';
+    MR=new MediaRecorder(st,mt?{mimeType:mt}:undefined);CH=[];
+    MR.ondataavailable=function(e){if(e.data.size)CH.push(e.data)};
+    MR.onstop=function(){st.getTracks().forEach(function(t){t.stop()});clearInterval(TM);E('r-btn').classList.remove('recording');E('r-btn').textContent='Rekam ulang';
+      BLOB=new Blob(CH,{type:MR.mimeType||'audio/mp4'});var u=URL.createObjectURL(BLOB);E('r-audio').src=u;
+      var ext=/webm/.test(BLOB.type)?'webm':'m4a';E('r-dl').href=u;E('r-dl').download='setoran-halaman-'+P+'.'+ext;E('r-out').hidden=false;E('r-out').style.display='flex'};
+    MR.start();T0=Date.now();E('r-btn').classList.add('recording');E('r-btn').textContent='⏹ Berhenti';
+    TM=setInterval(function(){E('r-time').textContent='● '+fmt((Date.now()-T0)/1000)},500);
+  }).catch(function(){E('r-err').textContent='Izin mikrofon ditolak. Aktifkan mikrofon untuk website ini di pengaturan browser.';E('r-err').hidden=false})});
+E('r-share').addEventListener('click',function(){if(!BLOB)return;var ext=/webm/.test(BLOB.type)?'webm':'m4a';
+  var f=new File([BLOB],'setoran-halaman-'+P+'.'+ext,{type:BLOB.type});
+  if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:'Setoran halaman '+P,text:'Setoran hafalan halaman '+P+' (Mushaf Blank, tahfidzonline.com/hafalan)'}).catch(function(){});
+  else E('r-dl').click()});
+// --- murattal
+var AU=new Audio(),QU=[],QI=0,PLAY=false,REP=false,SHOW=true;AU.preload='auto';
+function url(s,a){return 'https://everyayah.com/data/'+E('qsel').value+'/'+('00'+s).slice(-3)+('00'+a).slice(-3)+'.mp3'}
+function queue(){var r=range(P),q=[];for(var i=r[0];i<r[1];i++){var v=Q.v[i];if(v[1]===1&&v[0]!==1&&v[0]!==9)q.push({s:1,a:1,b:null});q.push({s:v[0],a:v[1],b:OPEN[i-r[0]]})}return q}
+function hl(b){OPEN.forEach(function(x){x.classList.toggle('playing',x===b)});if(b){if(SHOW)setOpen(b,true);b.scrollIntoView({behavior:'smooth',block:'center'})}}
+function playI(){var it=QU[QI];if(!it){if(REP){QI=0;return playI()}stopAudio();E('m-now').textContent='Selesai satu halaman ✓';return}
+  AU.src=url(it.s,it.a);AU.play().catch(function(){});hl(it.b);E('m-now').textContent=it.b?Q.names[it.s-1]+' : '+it.a:'Basmalah'}
+AU.addEventListener('ended',function(){if(PLAY){QI++;playI()}});
+AU.addEventListener('error',function(){if(!PLAY)return;E('m-err').textContent='Audio qari ini belum bisa diputar. Coba qari lain atau periksa koneksi.';E('m-err').hidden=false;stopAudio()});
+function stopAudio(){PLAY=false;AU.pause();E('m-btn').textContent='▶ Putar halaman ini';hl(null);E('m-now').textContent=''}
+E('m-btn').addEventListener('click',function(){if(!Q)return;E('m-err').hidden=true;
+  if(PLAY){PLAY=false;AU.pause();E('m-btn').textContent='▶ Lanjutkan';return}
+  if(E('m-btn').textContent.indexOf('Lanjutkan')>=0&&AU.src){PLAY=true;AU.play();E('m-btn').textContent='⏸ Jeda';return}
+  QU=queue();QI=0;PLAY=true;E('m-btn').textContent='⏸ Jeda';playI()});
+E('m-rep').addEventListener('click',function(){REP=!REP;E('m-rep').setAttribute('aria-pressed',REP)});
+E('m-show').addEventListener('click',function(){SHOW=!SHOW;E('m-show').setAttribute('aria-pressed',SHOW)});
+// resume last page
+var last=+ls('toa-blank-page');if(last>=1&&last<=604){E('pg-h').textContent='';var lb=document.createElement('button');lb.type='button';lb.className='btn ghost';lb.style.alignSelf='flex-start';lb.textContent='Lanjutkan halaman '+last;lb.addEventListener('click',function(){openPage(last)});E('picker').appendChild(lb)}
+if(/^#p\d+$/.test(location.hash))openPage(Math.min(604,Math.max(1,+location.hash.slice(2))));
+
+</script>
+
+</body>
+</html>

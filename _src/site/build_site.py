@@ -55,6 +55,11 @@ assert 'claude.ai/artifact' not in kuis
 desc_k = 'Kuis TOA: Ayat Hari Ini, Sambung Ayat juz 1–30, Tajwid & Tahsin, Wawasan Keislaman, Tes Penempatan Program, dan Jadwal Murajaah Pintar.'
 open(OUT + 'kuis/index.html', 'w').write(page(kuis, 'Kuis TOA', desc_k))
 
+# ---------- hafalan (Mushaf Blank) ----------
+os.makedirs(OUT + 'hafalan', exist_ok=True)
+haf = body_of(D + 'hafalan/hafalan.html')
+open(OUT + 'hafalan/index.html', 'w').write(page(haf, 'Mushaf Blank TOA', 'Mushaf Blank TOA: uji hafalan Al-Qur\'an per halaman, rekam bacaanmu, lalu dengarkan murattal para masyayikh.'))
+
 # landing also references img/ relatively — make absolute so it works from any path
 s = open(OUT + 'index.html').read().replace('src="img/', 'src="/img/')
 s = s.replace("fetch('prestasi.json')", "fetch('/prestasi.json')")
