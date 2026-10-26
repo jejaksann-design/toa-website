@@ -1,0 +1,283 @@
+  <section id="prestasi" class="lb">
+<style>
+:root{--silver:#6B7A80;--silver-soft:#E6EBEC;--bronze:#A0582B;--bronze-soft:#F3E3D7}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--silver:#B9C6CB;--silver-soft:#1E2628;--bronze:#E09A6B;--bronze-soft:#2B1E16}}
+:root[data-theme="dark"]{--silver:#B9C6CB;--silver-soft:#1E2628;--bronze:#E09A6B;--bronze-soft:#2B1E16}
+.lb-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lb-sel{display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);border-radius:999px;padding:4px 6px 4px 14px;font-weight:600;font-size:.88rem;color:var(--muted)}
+.lb-sel select{font:inherit;font-weight:600;color:var(--ink);background:var(--paper);border:0;border-radius:999px;padding:8px 12px;cursor:pointer}
+.lb-sel select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.lb-seg{display:flex;flex-wrap:wrap;gap:4px;background:var(--green-soft);border-radius:20px;padding:4px}
+.lb-seg button{font:inherit;font-weight:600;font-size:.88rem;border:0;border-radius:999px;padding:8px 13px;background:transparent;color:var(--muted);cursor:pointer}
+.lb-seg button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.lb button:focus-visible,.lb input:focus-visible,.lb summary:focus-visible,#lb-dlg a:focus-visible,#lb-dlg button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.lb-podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:10px;align-items:end}
+.lb-pod{border:0;font:inherit;color:inherit;text-align:center;cursor:pointer;border-radius:16px;padding:16px 10px;display:flex;flex-direction:column;gap:4px;align-items:center;min-width:0}
+.lb-pod .n{font-family:var(--display);font-size:2.4rem;line-height:1}
+.lb-pod .nm{font-weight:600;font-size:.92rem;line-height:1.3;overflow-wrap:anywhere}
+.lb-pod .sc{font-variant-numeric:tabular-nums;font-size:.85rem;color:var(--muted)}
+.lb-pod.r1{background:var(--gold-soft);padding-block:26px}.lb-pod.r1 .n{color:var(--gold);font-size:3rem}
+.lb-pod.r2{background:var(--silver-soft)}.lb-pod.r2 .n{color:var(--silver)}
+.lb-pod.r3{background:var(--bronze-soft)}.lb-pod.r3 .n{color:var(--bronze)}
+@media (max-width:420px){.lb-podium{grid-template-columns:1fr}.lb-pod.r1{order:-1}}
+.lb input[type=search]{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+.lb-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.lb-row{display:grid;grid-template-columns:2.6rem 1fr auto;gap:12px;align-items:center;padding:12px 4px;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+.lb-row:hover{background:var(--green-soft)}
+.lb-row .rk{font-family:var(--display);font-size:1.4rem;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.lb-row .who{min-width:0}
+.lb-row .who b{font-weight:600;display:block;overflow-wrap:anywhere}
+.lb-row .who span{font-size:.82rem;color:var(--muted)}
+.lb-row .sc{font-weight:600;font-variant-numeric:tabular-nums}
+.lb-chip{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);border:1px solid currentColor;border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+.lb-more{align-self:flex-start;background:none;border:1.5px solid var(--green);color:var(--green);border-radius:999px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer}
+.lb-empty{color:var(--muted);padding:14px 4px}
+.lb-acc{background:var(--paper);border:1px dashed var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.lb-steps{display:flex;gap:6px}
+.lb-steps span{flex:1;text-align:center;font-size:.8rem;font-weight:600;border-radius:999px;padding:6px;background:var(--line);color:var(--muted)}
+.lb-steps span.done{background:var(--green);color:var(--paper)}
+.lb details{border-top:1px solid var(--line)}
+.lb details:last-of-type{border-bottom:1px solid var(--line)}
+.lb summary{cursor:pointer;padding:14px 0;display:flex;justify-content:space-between;gap:10px;font-weight:600;list-style:none}
+.lb summary::-webkit-details-marker{display:none}
+.lb summary span{color:var(--muted);font-weight:400;font-size:.9rem}
+.lb details ol{margin:0 0 14px;padding-left:22px;color:var(--muted);columns:2;column-gap:24px}
+@media (max-width:440px){.lb details ol{columns:1}}
+.lb-sub{font-family:var(--display);font-size:1.5rem}
+#lb-dlg{border:0;padding:0;background:transparent;max-width:min(440px,calc(100vw - 32px));width:100%}
+#lb-dlg::backdrop{background:rgba(10,20,12,.55)}
+.lb-card{background:var(--paper);color:var(--ink);border:1.5px solid var(--green);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:16px;max-height:calc(100vh - 32px);overflow-y:auto}
+.lb-card .top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.8rem}
+.lb-card .top b{letter-spacing:.06em}
+.lb-x{background:none;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:4px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.lb-card .ar{font-family:var(--arabic);font-size:1.5rem;color:var(--green);direction:rtl;text-align:center;line-height:1.8}
+.lb-card h2{text-align:center}
+.lb-card .lead{text-align:center;color:var(--muted);font-size:.95rem;max-width:none}
+.lb-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lb-hero div{background:var(--green-soft);border-radius:14px;padding:12px;display:flex;flex-direction:column;text-align:center}
+.lb-hero span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lb-hero b{font-family:var(--display);font-weight:400;font-size:2rem;line-height:1.15;font-variant-numeric:tabular-nums}
+.lb-hero div.pred{background:var(--gold-soft)}
+.lb-bars{display:flex;flex-direction:column;gap:10px}
+.lb-bar .lbl{display:flex;justify-content:space-between;gap:10px;font-size:.88rem}
+.lb-bar .lbl b{font-variant-numeric:tabular-nums}
+.lb-bar .track{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:4px}
+.lb-bar .fill{height:100%;background:var(--green);border-radius:999px}
+.lb-card .meta{font-size:.86rem;color:var(--muted);text-align:center;max-width:none}
+.lb-reg{border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px;text-align:center}
+.lb-reg p{font-size:.9rem;max-width:none}
+.lb-reg a{display:block;background:var(--green);color:var(--paper);text-decoration:none;font-weight:600;border-radius:999px;padding:12px 18px}
+.lb-certbtn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gold-soft);color:var(--ink);border:1.5px solid var(--gold);border-radius:999px;padding:12px 18px;font:inherit;font-weight:600;cursor:pointer}
+#lb-cert{border:0;padding:0;background:transparent;max-width:min(760px,calc(100vw - 24px));width:100%}
+#lb-cert::backdrop{background:rgba(10,20,12,.6)}
+.lb-cbox{background:var(--paper);color:var(--ink);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px;max-height:calc(100vh - 24px);overflow-y:auto}
+.lb-cbox img{width:100%;height:auto;border-radius:8px;box-shadow:0 2px 14px rgba(0,0,0,.18);display:block}
+.lb-cbox .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lb-cbox .acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lb-cbox .acts button.dl{background:var(--green);color:var(--paper);border:0;border-radius:999px;padding:12px 20px;font:inherit;font-weight:600;cursor:pointer}
+.lb-cbox .hint{font-size:.84rem;color:var(--muted)}
+</style>
+    <span class="eyebrow">Prestasi santri</span>
+    <h2>Santri Qudwah <em style="color:var(--green)" id="lb-per"></em></h2>
+    <p class="lead">Hasil akhir periode terbaru. Santri bisa mencari namanya lalu tap untuk melihat kartu nilai.</p>
+    <div class="lb-controls">
+      <label class="lb-sel" for="lb-per-sel"><span>Periode</span><select id="lb-per-sel"></select></label>
+      <div class="lb-seg"><button type="button" id="lb-g-A" aria-pressed="true">Akhwat</button><button type="button" id="lb-g-I" aria-pressed="false">Ikhwan</button></div>
+    </div>
+    <div class="lb-podium" id="lb-podium"></div>
+    <p class="lb-sub" id="lb-count"></p>
+    <label for="lb-q" style="font-weight:400;color:var(--muted);font-size:.9rem">Cari nama atau halaqah</label>
+    <input type="search" id="lb-q" placeholder="Contoh: Novita atau HK15" autocomplete="off">
+    <div class="lb-list" id="lb-list"></div>
+    <button class="lb-more" type="button" id="lb-more" hidden></button>
+    <p class="note">Santri yang belum lulus tidak ditampilkan. Hasilnya disampaikan langsung oleh musyrif atau musyrifah.</p>
+    <p class="lb-sub">Qudwah 3 periode</p>
+    <div class="lb-acc" id="lb-acc"></div>
+    <details id="lb-rost-wrap"><summary>Santri per halaqah <span id="lb-rost-count"></span></summary><div id="lb-rost" style="padding-left:12px"></div></details>
+  </section>
+
+  <dialog id="lb-dlg" aria-label="Kartu nilai santri">
+    <div class="lb-card">
+      <div class="top"><b>TAHFIDZ ONLINE ACADEMY</b><button class="lb-x" type="button" id="lb-close">Tutup</button></div>
+      <div class="ar" lang="ar" id="lb-c-ar"></div>
+      <h2 id="lb-c-title"></h2>
+      <p class="lead" id="lb-c-lead"></p>
+      <div class="lb-hero"><div><span>Nilai akhir</span><b id="lb-c-akhir"></b></div><div class="pred"><span>Predikat</span><b id="lb-c-pred"></b></div></div>
+      <div class="lb-bars" id="lb-c-bars"></div>
+      <p class="meta" id="lb-c-meta"></p>
+      <button class="lb-certbtn" type="button" id="lb-certbtn">🎓 Lihat syahadah digital</button>
+      <div class="lb-reg"><p>Untuk lanjut ke periode berikutnya, silakan registrasi ulang.</p><a id="lb-c-reg" href="#" target="_blank" rel="noopener"></a><p style="font-size:.8rem;color:var(--muted)">Admin TOA: +62 823-1409-0180</p></div>
+    </div>
+  </dialog>
+
+  <dialog id="lb-cert" aria-label="Syahadah digital">
+    <div class="lb-cbox">
+      <div class="top"><b>Syahadah Digital</b><button class="lb-x" type="button" id="lb-cclose">Tutup</button></div>
+      <p class="hint" id="lb-cwait">Menyiapkan syahadah…</p>
+      <img id="lb-cimg" alt="" hidden>
+      <div class="acts"><button class="dl" type="button" id="lb-cdl" hidden>Unduh syahadah (PNG)</button><span class="hint" id="lb-cmsg"></span></div>
+      <p class="hint">Bisa juga tekan lama gambar untuk menyimpan, atau screenshot.</p>
+    </div>
+  </dialog>
+
+<script>
+(function(){
+/* ===== Data nilai per periode. Siklus Qudwah = 3 periode ===== */
+var CYCLES=__CYCLES__;
+var SIKLUS=[].concat.apply([],CYCLES);
+var DATA={};
+var LOST={'I':['TO69','TO70']};
+function lost(p){return (LOST[st.g]||[]).indexOf(p)>-1}
+/* ===== akhir data ===== */
+var st={per:null,g:'A',q:'',all:false};
+function E(id){return document.getElementById(id)}
+function fmt(n){return n.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function pred(d){return d.akhir>=90?'Mumtaz':d.akhir>=80?'Jayyid Jiddan':d.akhir>=70?'Jayyid':d.akhir>=60?'Maqbul':'Lulus'}
+function hkName(h){return h==='HT'?'Halaqah HT':'Halaqah '+h.replace('HK','')}
+function rows(){return (DATA[st.per]||[]).filter(function(d){return d.g===st.g})}
+function passed(){return rows().filter(function(d){return d.lulus})}
+function grp(){return st.g==='A'?'akhwat':'ikhwan'}
+var sp=E('lb-per-sel');
+function buildSel(){sp.textContent='';
+CYCLES.slice().reverse().forEach(function(c){var og=document.createElement('optgroup');og.label='Siklus '+c[0]+'–'+c[c.length-1];
+  c.slice().reverse().forEach(function(p){var o=document.createElement('option');o.value=p;o.textContent=p+(DATA[p]?'':' (belum ada)');o.disabled=!DATA[p];og.appendChild(o)});sp.appendChild(og)});}
+sp.addEventListener('change',function(){st.per=sp.value;st.all=false;render()});
+['A','I'].forEach(function(g){E('lb-g-'+g).addEventListener('click',function(){st.g=g;st.all=false;render()})});
+E('lb-q').addEventListener('input',function(){st.q=this.value.trim().toLowerCase();list()});
+E('lb-more').addEventListener('click',function(){st.all=!st.all;list()});
+function render(){
+  E('lb-per').textContent=st.per;
+  sp.value=st.per;
+  ['A','I'].forEach(function(g){E('lb-g-'+g).setAttribute('aria-pressed',g===st.g)});
+  var P=passed(),pod=E('lb-podium');pod.textContent='';
+  [1,0,2].forEach(function(i){var d=P[i];if(!d)return;var b=document.createElement('button');b.type='button';b.className='lb-pod r'+(i+1);
+    b.innerHTML='<span class="n"></span><span class="nm"></span><span class="sc"></span>';
+    b.querySelector('.n').textContent=i+1;b.querySelector('.nm').textContent=d.nama;b.querySelector('.sc').textContent=fmt(d.akhir)+' · '+d.hk;
+    b.addEventListener('click',function(){card(d)});pod.appendChild(b)});
+  E('lb-count').textContent=rows().length?P.length+' santri '+grp()+' lulus':'Data '+grp()+' '+st.per+(lost(st.per)?' tidak tersedia (arsipnya hilang)':' belum tersedia');
+  list();acc();roster();
+}
+function list(){
+  var L=E('lb-list'),m=E('lb-more');L.textContent='';
+  var P=passed().filter(function(d){return !st.q||d.nama.toLowerCase().indexOf(st.q)>-1||d.hk.toLowerCase().indexOf(st.q)>-1});
+  if(!P.length){var e=document.createElement('p');e.className='lb-empty';e.textContent='Nama tidak ditemukan di daftar lulus '+st.per+'.';L.appendChild(e);m.hidden=true;return}
+  var show=(st.q||st.all)?P:P.slice(0,10);
+  show.forEach(function(d){var b=document.createElement('button');b.type='button';b.className='lb-row';
+    b.innerHTML='<span class="rk"></span><span class="who"><b></b><span></span></span><span class="sc"></span>';
+    b.querySelector('.rk').textContent=d.rank;b.querySelector('.who b').textContent=d.nama;
+    if(d.rank<=5){var c=document.createElement('span');c.className='lb-chip';c.textContent=d.rank<=3?'Top 3':'Top 5';b.querySelector('.who b').appendChild(c)}
+    b.querySelector('.who span').textContent=hkName(d.hk)+' · '+pred(d);b.querySelector('.sc').textContent=fmt(d.akhir);
+    b.addEventListener('click',function(){card(d)});L.appendChild(b)});
+  m.hidden=!!st.q||P.length<=10;m.textContent=st.all?'Tampilkan Top 10 saja':'Lihat semua '+P.length+' santri';
+}
+function key(d){return d.g+'|'+d.nama.toLowerCase().replace(/^h\.\s*/,'').replace(/[^a-z]/g,'')}
+function acc(){
+  var C=CYCLES.filter(function(c){return c.indexOf(st.per)>-1})[0];
+  var A=E('lb-acc');A.textContent='';var have=C.filter(function(p){return DATA[p]&&DATA[p].some(function(d){return d.g===st.g})});
+  var s=document.createElement('div');s.className='lb-steps';
+  C.forEach(function(p){var x=document.createElement('span');x.textContent=p;if(have.indexOf(p)>-1)x.className='done';s.appendChild(x)});A.appendChild(s);
+  if(have.length<C.length){var p=document.createElement('p');p.style.color='var(--muted)';
+    var miss=C.filter(function(q){return have.indexOf(q)<0}),gone=miss.filter(lost);
+    if(gone.length){p.textContent='Arsip nilai '+grp()+' '+gone.join(' dan ')+' tidak tersedia, jadi Qudwah 3 periode untuk '+grp()+' di siklus ini tidak bisa dihitung.';A.appendChild(p);return}
+    p.textContent='Menunggu data '+grp()+' '+miss.join(', ')+'. Yang terbaik dari yang terbaik dihitung dari rata-rata nilai akhir '+C.join(', ')+', khusus santri yang lulus di semua periodenya.';A.appendChild(p);return}
+  var M={};C.forEach(function(p){DATA[p].forEach(function(d){if(d.g!==st.g||!d.lulus)return;var k=key(d);(M[k]=M[k]||{nama:d.nama,n:[]}).n.push(d.akhir)})});
+  var R=Object.keys(M).map(function(k){return M[k]}).filter(function(x){return x.n.length===C.length})
+    .map(function(x){x.avg=x.n.reduce(function(a,b){return a+b},0)/x.n.length;return x}).sort(function(a,b){return b.avg-a.avg}).slice(0,10);
+  var L=document.createElement('div');L.className='lb-list';
+  R.forEach(function(x,i){var r=document.createElement('div');r.className='lb-row';r.style.cursor='default';
+    r.innerHTML='<span class="rk"></span><span class="who"><b></b><span></span></span><span class="sc"></span>';
+    r.querySelector('.rk').textContent=i+1;r.querySelector('.who b').textContent=x.nama;r.querySelector('.who span').textContent=x.n.map(fmt).join(' · ');r.querySelector('.sc').textContent=fmt(x.avg);L.appendChild(r)});
+  A.appendChild(L);
+}
+function roster(){
+  var R=E('lb-rost'),M={};R.textContent='';rows().forEach(function(d){(M[d.hk]=M[d.hk]||[]).push(d.nama)});
+  var ks=Object.keys(M).sort(function(a,b){return (a==='HT')-(b==='HT')||a.localeCompare(b)});
+  E('lb-rost-count').textContent=ks.length+' halaqah '+grp();
+  ks.forEach(function(h){var d=document.createElement('details'),s=document.createElement('summary'),ol=document.createElement('ol'),c=document.createElement('span');
+    s.textContent=hkName(h);c.textContent=M[h].length+' santri';s.appendChild(c);
+    M[h].sort(function(a,b){return a.localeCompare(b,'id')}).forEach(function(n){var li=document.createElement('li');li.textContent=n;ol.appendChild(li)});
+    d.appendChild(s);d.appendChild(ol);R.appendChild(d)});
+}
+var CUR=null;
+function card(d){
+  CUR=d;
+  var A=d.g==='A',first=d.nama.replace(/^H\.\s*/,'').split(' ')[0],nx=st.per.replace(/\d+$/,function(n){return +n+1});
+  E('lb-c-ar').textContent=A?'بَارَكَ اللهُ فِيكِ يَا أُخْتِي':'بَارَكَ اللهُ فِيكَ يَا أَخِي';
+  E('lb-c-title').textContent=(A?'Barakallahu fiiki, Ukhti ':'Barakallahu fiik, Akhi ')+first;
+  E('lb-c-lead').textContent='Selamat! Kamu lulus '+st.per+' dan lanjut ke periode berikutnya. Semoga Allah jaga hafalanmu.';
+  E('lb-c-akhir').textContent=fmt(d.akhir);E('lb-c-pred').textContent=pred(d);
+  var b=E('lb-c-bars');b.textContent='';
+  [['Setoran',d.setoran,'30%'],['Adab & Keaktifan',d.adab,'50%'],['Imtihan Akbar',d.imtak,'20%']].forEach(function(x){
+    var el=document.createElement('div');el.className='lb-bar';el.innerHTML='<div class="lbl"><span></span><b></b></div><div class="track"><div class="fill"></div></div>';
+    el.querySelector('span').textContent=x[0]+' ('+x[2]+')';el.querySelector('b').textContent=fmt(x[1]);el.querySelector('.fill').style.width=x[1]+'%';b.appendChild(el)});
+  E('lb-c-meta').textContent=d.nama+' · '+hkName(d.hk)+' · Peringkat ke-'+d.rank+' dari '+passed().length+' santri '+(A?'akhwat':'ikhwan')+' lulus '+st.per;
+  var r=E('lb-c-reg');r.href='https://wa.me/6282314090180?text='+encodeURIComponent([nx,'Registrasi Ulang',d.nama,d.hk,A?'Akhwat':'Ikhwan'].join(' # '));r.textContent='Registrasi ulang '+nx+' via WhatsApp';
+  var dl=E('lb-dlg');if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
+}
+E('lb-close').addEventListener('click',function(){var dl=E('lb-dlg');dl.close?dl.close():dl.removeAttribute('open')});
+E('lb-dlg').addEventListener('click',function(e){if(e.target===this)this.close()});
+
+/* ===== Syahadah digital ===== */
+var DL=null;try{window.claude&&window.claude.use&&window.claude.use('downloads').then(function(x){DL=x}).catch(function(){})}catch(e){}
+var CBLOB=null,CNAME='';
+function fitText(ctx,t,max,size,font){var z=size;do{ctx.font=font.replace('{z}',z);if(ctx.measureText(t).width<=max)break;z-=4}while(z>40);return z}
+function drawCert(d){
+  var W=2000,H=1414,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
+  var A=d.g==='A',total=passed().length,nm=d.nama,per=st.per,pr=pred(d);
+  var G='#2F6A23',GD='#B8871A',INK='#17231A',MU='#5B6A5F';
+  x.fillStyle='#FBFAF4';x.fillRect(0,0,W,H);
+  var bg=x.createRadialGradient(W/2,H/2,200,W/2,H/2,1100);bg.addColorStop(0,'rgba(184,135,26,0)');bg.addColorStop(1,'rgba(184,135,26,.10)');x.fillStyle=bg;x.fillRect(0,0,W,H);
+  x.strokeStyle=GD;x.lineWidth=10;x.strokeRect(50,50,W-100,H-100);
+  x.strokeStyle=G;x.lineWidth=3;x.strokeRect(78,78,W-156,H-156);
+  [[78,78],[W-78,78],[78,H-78],[W-78,H-78]].forEach(function(p){x.save();x.translate(p[0],p[1]);x.rotate(Math.PI/4);x.fillStyle=GD;x.fillRect(-16,-16,32,32);x.fillStyle='#FBFAF4';x.fillRect(-7,-7,14,14);x.restore()});
+  // logo
+  var LI=document.querySelector('img.toa-logo');if(LI&&LI.complete&&LI.naturalWidth)x.drawImage(LI,W/2-62,105,124,124);
+  x.textAlign='center';x.textBaseline='alphabetic';
+  x.fillStyle=INK;x.font='700 30px "Plus Jakarta Sans", sans-serif';
+  if(x.letterSpacing!==undefined)x.letterSpacing='6px';x.fillText('TAHFIDZ ONLINE ACADEMY',W/2,280);if(x.letterSpacing!==undefined)x.letterSpacing='0px';
+  x.fillStyle=G;x.font='700 120px "Amiri", serif';x.direction='rtl';x.fillText('شَهَادَة',W/2,430);x.direction='ltr';
+  x.fillStyle=GD;x.font='600 30px "Plus Jakarta Sans", sans-serif';if(x.letterSpacing!==undefined)x.letterSpacing='8px';x.fillText('SYAHADAH KELULUSAN',W/2,495);if(x.letterSpacing!==undefined)x.letterSpacing='0px';
+  x.fillStyle=MU;x.font='400 36px "Plus Jakarta Sans", sans-serif';x.fillText('Diberikan kepada',W/2,590);
+  var z=fitText(x,nm,W-460,130,'400 {z}px "Instrument Serif", Georgia, serif');x.fillStyle=INK;x.fillText(nm,W/2,720);
+  x.strokeStyle=GD;x.lineWidth=2;x.beginPath();x.moveTo(W/2-420,760);x.lineTo(W/2+420,760);x.stroke();
+  x.fillStyle=MU;x.font='400 36px "Plus Jakarta Sans", sans-serif';
+  x.fillText('atas kelulusannya pada Program Tahfidz Online, Periode '+per+', dengan predikat',W/2,835);
+  x.fillStyle=GD;x.font='italic 400 112px "Instrument Serif", Georgia, serif';x.fillText(pr,W/2,965);
+  var cols=[['NILAI AKHIR',fmt(d.akhir)],['PERINGKAT','ke-'+d.rank+' dari '+total+' santri '+(A?'akhwat':'ikhwan')],['HALAQAH',d.hk]],cx=[W/2-520,W/2,W/2+520];
+  cols.forEach(function(cl,i){x.fillStyle=MU;x.font='600 24px "Plus Jakarta Sans", sans-serif';if(x.letterSpacing!==undefined)x.letterSpacing='4px';x.fillText(cl[0],cx[i],1045);if(x.letterSpacing!==undefined)x.letterSpacing='0px';
+    x.fillStyle=INK;x.font=(i===0?'400 58px "Instrument Serif", Georgia, serif':'600 32px "Plus Jakarta Sans", sans-serif');x.fillText(cl[1],cx[i],i===0?1105:1095)});
+  x.fillStyle=G;x.font='400 54px "Amiri", serif';x.direction='rtl';x.fillText(A?'بَارَكَ اللهُ فِيكِ وَنَفَعَ بِكِ':'بَارَكَ اللهُ فِيكَ وَنَفَعَ بِكَ',W/2,1195);x.direction='ltr';
+  x.textAlign='left';x.fillStyle=INK;x.font='400 46px "Instrument Serif", Georgia, serif';x.fillText('Ustadz Iksan M.',170,1290);
+  x.strokeStyle=INK;x.lineWidth=1.5;x.beginPath();x.moveTo(170,1240);x.lineTo(560,1240);x.stroke();
+  x.fillStyle=MU;x.font='400 24px "Plus Jakarta Sans", sans-serif';x.fillText('Founder Tahfidz Online Academy',170,1328);
+  x.textAlign='right';var no='TOA/'+per+'/'+(A?'A':'I')+'/'+String(d.rank).padStart(3,'0');
+  x.fillStyle=MU;x.font='600 24px "Plus Jakarta Sans", sans-serif';x.fillText('No. Syahadah: '+no,W-170,1290);
+  x.font='400 24px "Plus Jakarta Sans", sans-serif';x.fillText('@tahfidzonline.academy',W-170,1328);
+  CNAME='Syahadah-TOA-'+per+'-'+nm.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png';
+  return c;
+}
+function openCert(){
+  if(!CUR)return;var dl=E('lb-cert'),img=E('lb-cimg'),w=E('lb-cwait'),b=E('lb-cdl'),m=E('lb-cmsg');
+  img.hidden=true;w.hidden=false;b.hidden=true;m.textContent='';CBLOB=null;
+  var dd=E('lb-dlg');if(dd.open&&dd.close)dd.close();
+  if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
+  var fl=document.fonts&&document.fonts.load?Promise.all(['400 130px "Instrument Serif"','italic 400 112px "Instrument Serif"','700 120px "Amiri"','400 54px "Amiri"','600 30px "Plus Jakarta Sans"','400 36px "Plus Jakarta Sans"','700 30px "Plus Jakarta Sans"'].map(function(f){return document.fonts.load(f,'Aa شَهَادَة')})).catch(function(){}):Promise.resolve();
+  fl.then(function(){
+    var c=drawCert(CUR);
+    c.toBlob(function(bl){CBLOB=bl;img.src=URL.createObjectURL(bl);img.alt='Syahadah digital '+CUR.nama;img.hidden=false;w.hidden=true;b.hidden=!DL},'image/png');
+  });
+}
+E('lb-certbtn').addEventListener('click',openCert);
+E('lb-cclose').addEventListener('click',function(){var dl=E('lb-cert');dl.close?dl.close():dl.removeAttribute('open')});
+E('lb-cert').addEventListener('click',function(e){if(e.target===this)this.close()});
+E('lb-cdl').addEventListener('click',function(){
+  if(!DL||!CBLOB)return;var m=E('lb-cmsg');m.textContent='';
+  DL.save({filename:CNAME,data:CBLOB}).then(function(r){m.textContent=r.status==='saved'?'Tersimpan ✓':''}).catch(function(e){
+    var c=e&&e.code;if(c==='declined'){m.textContent='Unduhan dibatalkan.'}else if(c==='rate_limited'){m.textContent='Tunggu sebentar, lalu coba lagi.'}else{E('lb-cdl').hidden=true;m.textContent='Unduhan belum tersedia di sini. Tekan lama gambar untuk menyimpan.'}});
+});
+E('lb-count').textContent='Memuat data prestasi…';
+fetch('prestasi.json').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+  DATA=d;st.per=SIKLUS.filter(function(p){return DATA[p]}).slice(-1)[0];buildSel();render();
+}).catch(function(){E('lb-count').textContent='Data prestasi belum termuat. Coba muat ulang halaman.'});
+})();
+</script>
