@@ -22,7 +22,7 @@ function loadQ(){if(Q)return Promise.resolve();return fetch('/kuis/quran.json').
 function range(p){var a=PG.pages[p-1],b=PG.pages[p],i0=IDX[a[0]*1000+a[1]],i1=b?IDX[b[0]*1000+b[1]]:Q.v.length;return [i0,i1]}
 function splitBas(v){var w=v[3].split(' ');if(v[1]===1&&v[0]!==1&&v[0]!==9)return [w.slice(0,4).join(' '),w.slice(4).join(' ')];return [null,v[3]]}
 // --- viewer
-function openPage(p){E('viewer').hidden=false;E('ayat').innerHTML='<p class="muted">Membuka mushaf…</p>';
+function openPage(p){if(!(history.state&&history.state.toa))history.pushState({toa:1},'');E('picker').hidden=true;E('viewer').hidden=false;E('ayat').innerHTML='<p class="muted">Membuka mushaf…</p>';
   loadQ().then(function(){render(p);E('viewer').scrollIntoView({behavior:'smooth'})}).catch(function(){E('ayat').innerHTML='<p class="err">Teks Al-Qur\'an belum termuat. Periksa koneksi, lalu coba lagi.</p>'})}
 function render(p){stopAudio();P=p;ls('toa-blank-page',p);var r=range(p),A=E('ayat');A.textContent='';OPEN=[];
   var surs={};for(var i=r[0];i<r[1];i++)surs[Q.v[i][0]]=1;
@@ -85,3 +85,7 @@ E('m-show').addEventListener('click',function(){SHOW=!SHOW;E('m-show').setAttrib
 // resume last page
 var last=+ls('toa-blank-page');if(last>=1&&last<=604){E('pg-h').textContent='';var lb=document.createElement('button');lb.type='button';lb.className='btn ghost';lb.style.alignSelf='flex-start';lb.textContent='Lanjutkan halaman '+last;lb.addEventListener('click',function(){openPage(last)});E('picker').appendChild(lb)}
 if(/^#p\d+$/.test(location.hash))openPage(Math.min(604,Math.max(1,+location.hash.slice(2))));
+
+function backPick(){stopAudio();E('viewer').hidden=true;E('picker').hidden=false;window.scrollTo({top:0,behavior:'smooth'})}
+E('v-back').addEventListener('click',function(){if(history.state&&history.state.toa)history.back();else backPick()});
+window.addEventListener('popstate',backPick);

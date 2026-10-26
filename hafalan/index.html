@@ -185,6 +185,11 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offse
 .warn{font-size:.88rem;background:var(--gold-soft);border-radius:12px;padding:12px 14px}
 .loading{color:var(--muted);text-align:center;padding:30px 0}
 footer{font-size:.8rem;color:var(--muted);text-align:center}
+.topnav{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.topnav a{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 14px;font-weight:600;font-size:.88rem;color:var(--ink);text-decoration:none}
+.topnav a.home{border-color:var(--green);color:var(--green)}
+.topnav a[aria-current]{background:var(--green-soft);border-color:var(--green-soft);color:var(--green)}
+
 .card{display:flex;flex-direction:column;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px}
 .sel{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:12px;width:100%}
 .juzgrid .on{border-color:var(--green);background:var(--green-soft);color:var(--green)}
@@ -202,11 +207,16 @@ footer{font-size:.8rem;color:var(--muted);text-align:center}
 .ay.playing{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-soft)}
 .err{color:var(--bad);font-size:.9rem;margin:0}
 #r-btn.recording{background:var(--bad)}
+.topnav{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.topnav a{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 14px;font-weight:600;font-size:.88rem;color:var(--ink);text-decoration:none}
+.topnav a.home{border-color:var(--green);color:var(--green)}
+.topnav a[aria-current]{background:var(--green-soft);border-color:var(--green-soft);color:var(--green)}
 
 </style>
 <div class="wrap">
   <header>
     <a class="brand" href="/" style="color:inherit;text-decoration:none"><img src="/img/logo-160.png" alt="" width="34" height="34"><b>TAHFIDZ ONLINE ACADEMY</b></a>
+    <nav class="topnav" aria-label="Navigasi"><a href="/" class="home">← Beranda TOA</a><a href="/kuis/">Kuis TOA</a><a href="/hafalan/" aria-current="page">Mushaf Blank</a></nav>
   </header>
 
   <section style="display:flex;flex-direction:column;gap:10px">
@@ -229,6 +239,7 @@ footer{font-size:.8rem;color:var(--muted);text-align:center}
   </section>
 
   <section id="viewer" hidden style="display:flex;flex-direction:column;gap:16px">
+    <button class="link" type="button" id="v-back">← Pilih halaman lain</button>
     <div class="vtop">
       <button class="nav" type="button" id="prev" aria-label="Halaman sebelumnya">‹</button>
       <div style="text-align:center"><b id="v-h"></b><div class="muted" id="v-s" style="font-size:.88rem"></div></div>
@@ -297,7 +308,7 @@ function loadQ(){if(Q)return Promise.resolve();return fetch('/kuis/quran.json').
 function range(p){var a=PG.pages[p-1],b=PG.pages[p],i0=IDX[a[0]*1000+a[1]],i1=b?IDX[b[0]*1000+b[1]]:Q.v.length;return [i0,i1]}
 function splitBas(v){var w=v[3].split(' ');if(v[1]===1&&v[0]!==1&&v[0]!==9)return [w.slice(0,4).join(' '),w.slice(4).join(' ')];return [null,v[3]]}
 // --- viewer
-function openPage(p){E('viewer').hidden=false;E('ayat').innerHTML='<p class="muted">Membuka mushaf…</p>';
+function openPage(p){if(!(history.state&&history.state.toa))history.pushState({toa:1},'');E('picker').hidden=true;E('viewer').hidden=false;E('ayat').innerHTML='<p class="muted">Membuka mushaf…</p>';
   loadQ().then(function(){render(p);E('viewer').scrollIntoView({behavior:'smooth'})}).catch(function(){E('ayat').innerHTML='<p class="err">Teks Al-Qur\'an belum termuat. Periksa koneksi, lalu coba lagi.</p>'})}
 function render(p){stopAudio();P=p;ls('toa-blank-page',p);var r=range(p),A=E('ayat');A.textContent='';OPEN=[];
   var surs={};for(var i=r[0];i<r[1];i++)surs[Q.v[i][0]]=1;
@@ -360,6 +371,10 @@ E('m-show').addEventListener('click',function(){SHOW=!SHOW;E('m-show').setAttrib
 // resume last page
 var last=+ls('toa-blank-page');if(last>=1&&last<=604){E('pg-h').textContent='';var lb=document.createElement('button');lb.type='button';lb.className='btn ghost';lb.style.alignSelf='flex-start';lb.textContent='Lanjutkan halaman '+last;lb.addEventListener('click',function(){openPage(last)});E('picker').appendChild(lb)}
 if(/^#p\d+$/.test(location.hash))openPage(Math.min(604,Math.max(1,+location.hash.slice(2))));
+
+function backPick(){stopAudio();E('viewer').hidden=true;E('picker').hidden=false;window.scrollTo({top:0,behavior:'smooth'})}
+E('v-back').addEventListener('click',function(){if(history.state&&history.state.toa)history.back();else backPick()});
+window.addEventListener('popstate',backPick);
 
 </script>
 

@@ -15,3 +15,7 @@
 .ay.playing{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-soft)}
 .err{color:var(--bad);font-size:.9rem;margin:0}
 #r-btn.recording{background:var(--bad)}
+.topnav{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.topnav a{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 14px;font-weight:600;font-size:.88rem;color:var(--ink);text-decoration:none}
+.topnav a.home{border-color:var(--green);color:var(--green)}
+.topnav a[aria-current]{background:var(--green-soft);border-color:var(--green-soft);color:var(--green)}
