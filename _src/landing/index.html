@@ -289,15 +289,15 @@ svg.querySelectorAll('.pv').forEach(function(p){p.addEventListener('click',funct
       <div class="row" style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn" href="https://claude.ai/artifact/BJWsb8L2PHZ9uoQfeV5r16" target="_blank" rel="noopener">Main Kuis TOA</a><a class="btn ghost" href="/hafalan/">Mushaf Blank</a></div>
     </div>
     <div id="klm" hidden style="background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px">
-      <b>🏆 Top 5 Klasemen Kuis TOA</b>
+      <b>🏆 Top 10 Klasemen Kuis TOA</b>
       <ol id="klm-list" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px"></ol>
       <p style="font-size:.85rem;color:var(--muted);margin:0">Isi namamu saat main kuis, kumpulkan poin dari setiap jawaban benar.</p>
     </div>
 <script>
 (function(){
   function j(u,b){return fetch(u,b?{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}:{}).then(function(r){return r.json()}).then(function(d){if(d&&d.off)throw 0;return d})}
-  j('/api/score?b=all').then(function(d){if(!d.top||!d.top.length)return;var L=document.getElementById('klm-list');
-    d.top.slice(0,5).forEach(function(x,i){var li=document.createElement('li');li.style.cssText='display:grid;grid-template-columns:2rem 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)';
+  j('/api/score?b=all&n=10').then(function(d){if(!d.top||!d.top.length)return;var L=document.getElementById('klm-list');
+    d.top.slice(0,10).forEach(function(x,i){var li=document.createElement('li');li.style.cssText='display:grid;grid-template-columns:2rem 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)';
       var r=document.createElement('span');r.style.textAlign='center';r.textContent=i<3?['🥇','🥈','🥉'][i]:i+1;
       var n=document.createElement('span');n.style.cssText='font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';n.textContent=x.name;
       var p=document.createElement('span');p.style.cssText='font-weight:700;color:var(--green);font-variant-numeric:tabular-nums';p.textContent=x.pts+' poin';

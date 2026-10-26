@@ -1,4 +1,4 @@
-// GET  /api/score?b=all|sambung|tajwid|wawasan&me=<pid>  -> klasemen 10 besar (+ posisi saya)
+// GET  /api/score?b=all|sambung|tajwid|wawasan&me=<pid>&n=20  -> klasemen n besar (maks 50) (+ posisi saya)
 // POST /api/score {tok,pid,name,score}                     -> tambah poin
 const kv = require('./_kv');
 const BOARDS = ['all', 'sambung', 'tajwid', 'wawasan'];
@@ -10,9 +10,10 @@ function cleanName(s) {
   if (s.length < 2 || !/^[\p{L}\p{M}0-9 .'\-]+$/u.test(s) || BAD.test(s)) return null;
   return s;
 }
-async function board(b, me) {
+async function board(b, me, n) {
+  n = Math.max(1, Math.min(50, n || 20));
   const k = 'lb:' + b;
-  const cmds = [['ZREVRANGE', k, 0, 9, 'WITHSCORES'], ['ZCARD', k]];
+  const cmds = [['ZREVRANGE', k, 0, n - 1, 'WITHSCORES'], ['ZCARD', k]];
   if (me) cmds.push(['ZREVRANK', k, me], ['ZSCORE', k, me]);
   const r = await kv.pipe(cmds);
   const flat = r[0] || [], ids = [], pts = [];
@@ -29,7 +30,7 @@ module.exports = async function (req, res) {
     if (req.method === 'GET') {
       const b = BOARDS.indexOf(req.query.b) >= 0 ? req.query.b : 'all';
       const me = /^[a-f0-9]{8,32}$/.test(req.query.me || '') ? req.query.me : null;
-      return res.status(200).json(await board(b, me));
+      return res.status(200).json(await board(b, me, parseInt(req.query.n, 10)));
     }
     if (req.method !== 'POST') return res.status(405).end();
     const p = kv.body(req);

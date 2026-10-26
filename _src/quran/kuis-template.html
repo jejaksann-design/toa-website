@@ -445,9 +445,9 @@ function klRender(d){if(!d||!d.top)return;var L=E('kl-list');L.textContent='';
     var r=document.createElement('span');r.className='r';r.textContent=i<3?['🥇','🥈','🥉'][i]:i+1;
     var n=document.createElement('span');n.className='n';n.textContent=x.name;
     var p=document.createElement('span');p.className='p';p.textContent=x.pts+' poin';li.append(r,n,p);L.appendChild(li)});
-  var me=E('kl-me');if(d.mine&&d.mine.rank>10){me.textContent='Posisimu: #'+d.mine.rank+' dari '+d.n+' pemain ('+d.mine.pts+' poin).';me.hidden=false}
+  var me=E('kl-me');if(d.mine&&d.mine.rank>d.top.length){me.textContent='Posisimu: #'+d.mine.rank+' dari '+d.n+' pemain ('+d.mine.pts+' poin).';me.hidden=false}
   else if(d.n){me.textContent=d.n+' pemain di klasemen ini.';me.hidden=false}else me.hidden=true}
-function klLoad(b){KLB=b;api('score?b='+b+'&me='+PID).then(klRender).catch(function(){})}
+function klLoad(b){KLB=b;api('score?b='+b+'&n=20&me='+PID).then(klRender).catch(function(){})}
 E('kl-tabs').querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){klLoad(b.dataset.b)})});
 (function(){var today=new Date(Date.now()+7*36e5).toISOString().slice(0,10),seen='';try{seen=localStorage.getItem('toa-v')}catch(e){}
   api('visit',seen===today?null:{}).then(function(d){try{localStorage.setItem('toa-v',today)}catch(e){}
