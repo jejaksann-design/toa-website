@@ -153,6 +153,23 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offse
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips button{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 14px;font-weight:600;font-size:.9rem;cursor:pointer}
 .chips button[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.who{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:.92rem}
+.who b{color:var(--green)}
+.kl{display:flex;flex-direction:column;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px}
+.kl ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.kl li{display:grid;grid-template-columns:2rem 1fr auto;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line)}
+.kl li:last-child{border-bottom:0}
+.kl li .r{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;text-align:center}
+.kl li:nth-child(1) .r{color:var(--gold)}
+.kl li .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.kl li .p{font-variant-numeric:tabular-nums;font-weight:700;color:var(--green)}
+.kl li.me{background:var(--green-soft);border-radius:10px}
+.kl .empty{color:var(--muted);font-size:.92rem;padding:8px 0}
+.vc{font-size:.85rem;color:var(--muted);text-align:center}
+.nm{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.nm[hidden]{display:none!important}
+.nmc{background:var(--paper);border-radius:20px;padding:22px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:12px}
+.nmc .tin{max-width:none;font-size:1.1rem}
 .psum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .psum div{background:var(--green-soft);border-radius:12px;padding:10px 6px;display:flex;flex-direction:column;text-align:center}
 .psum b{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.1;font-variant-numeric:tabular-nums}
@@ -185,6 +202,7 @@ footer{font-size:.8rem;color:var(--muted);text-align:center}
       <h1>Seberapa dekat kamu dengan <em>Al-Qur'an?</em></h1>
       <p class="muted">10 soal tiap ronde, soal berganti setiap main. Pilih kuismu.</p>
     </div>
+    <div class="who" id="who" hidden><span id="who-t"></span><button class="link" type="button" id="who-btn">Ganti nama</button></div>
     <button class="daily" id="daily-card" type="button">
       <span class="eyebrow" id="dc-no">Ayat Hari Ini</span>
       <b>Ayat Hari Ini</b>
@@ -199,6 +217,14 @@ footer{font-size:.8rem;color:var(--muted);text-align:center}
       <button class="mode" type="button" data-mode="tajwid"><span class="ic">ق</span><span><b>Tajwid &amp; Tahsin</b><span>Hukum bacaan, mad, makhraj, dan tanda waqaf.</span></span></button>
       <button class="mode" type="button" data-mode="wawasan"><span class="ic">ع</span><span><b>Wawasan Al-Qur'an &amp; Keislaman</b><span>Sejarah Al-Qur'an, surat, nabi, dan dasar-dasar Islam.</span></span></button>
     </div>
+    <div class="kl" id="klasemen" hidden>
+      <div style="display:flex;flex-direction:column;gap:6px"><span class="eyebrow">Klasemen Kuis TOA</span><h2>Top skor pemain</h2>
+        <p class="muted" style="font-size:.9rem">Poin = jumlah jawaban benar dari semua ronde. Ayat Hari Ini ikut dihitung di klasemen Semua.</p></div>
+      <div class="chips" id="kl-tabs"><button type="button" data-b="all" aria-pressed="true">Semua</button><button type="button" data-b="sambung" aria-pressed="false">Sambung Ayat</button><button type="button" data-b="tajwid" aria-pressed="false">Tajwid</button><button type="button" data-b="wawasan" aria-pressed="false">Wawasan</button></div>
+      <ol id="kl-list"></ol>
+      <p class="muted" id="kl-me" style="font-size:.9rem" hidden></p>
+    </div>
+    <p class="vc" id="vc" hidden></p>
   </section>
 
   <!-- Juz picker -->
@@ -266,6 +292,7 @@ footer{font-size:.8rem;color:var(--muted);text-align:center}
       <div class="stars" id="r-stars"></div>
       <h3 id="r-title"></h3>
       <p class="muted" id="r-text"></p>
+      <p id="r-lb" style="font-weight:600;color:var(--green)" hidden></p>
       <p style="font-size:.8rem;color:var(--muted)">Kuis TOA · Tahfidz Online Academy</p>
     </div>
     <div class="row"><button class="btn" type="button" id="again">Main lagi</button><button class="btn ghost" type="button" data-back>Ganti kuis</button></div>
@@ -287,6 +314,14 @@ footer{font-size:.8rem;color:var(--muted);text-align:center}
     </div>
   </section>
 
+  <div class="nm" id="nm" hidden role="dialog" aria-modal="true" aria-labelledby="nm-h"><div class="nmc">
+    <b id="nm-h" style="font-size:1.15rem">Siapa namamu?</b>
+    <p class="muted" style="font-size:.92rem">Namamu akan tampil di Klasemen Kuis TOA. Cukup nama panggilan, misalnya "Aisyah" atau "Akhi Fulan".</p>
+    <input class="tin" id="nm-in" maxlength="20" autocomplete="nickname" placeholder="Nama panggilan">
+    <p id="nm-err" style="color:var(--bad);font-size:.88rem" hidden></p>
+    <div class="row"><button class="btn" type="button" id="nm-ok">Simpan &amp; main</button><button class="btn ghost" type="button" id="nm-skip">Main tanpa nama</button></div>
+  </div></div>
+
   <footer>Teks Al-Qur'an: Tanzil Quran Text (Utsmani), tanzil.net, lisensi CC BY 3.0, tanpa perubahan.</footer>
 </div>
 
@@ -302,7 +337,7 @@ function head(t,n){var w=words(t);return w.length>n?w.slice(0,n).join(' ')+' …
 function tail(t,n){var w=words(t);return w.length>n?'… '+w.slice(-n).join(' '):t}
 
 document.querySelectorAll('.mode').forEach(function(b){b.addEventListener('click',function(){
-  st.mode=b.dataset.mode; if(st.mode==='sambung'){show('s-juz')}else{start()}})});
+  st.mode=b.dataset.mode; needName(function(){if(st.mode==='sambung'){show('s-juz')}else{start()}})})});
 document.querySelectorAll('[data-back]').forEach(function(b){b.addEventListener('click',function(){show('s-menu')})});
 E('again').addEventListener('click',function(){start()});
 
@@ -332,7 +367,7 @@ function buildBank(){
   });
 }
 function start(){
-  st.i=0;st.score=0;
+  st.i=0;st.score=0;st.tok=null;lbRound(st.mode,function(t){st.tok=t});
   E('q-mode').textContent=MODES[st.mode]+(st.mode==='sambung'?' · Juz '+st.juz:'');
   show('s-q');
   if(st.mode==='sambung'){
@@ -380,6 +415,7 @@ function result(){
         s>=5?['Bagus, terus semangat!','Ulangi lagi supaya makin lancar. Sedikit demi sedikit, insyaAllah melekat.']:
              ['Yuk belajar bareng!','Tidak apa-apa. Setiap ronde menambah ilmu. Coba lagi, atau belajar bersama di halaqah TOA.'];
   E('r-title').textContent=t[0];E('r-text').textContent=t[1];
+  E('r-lb').hidden=true;if(st.tok)lbSubmit(st.tok,s,function(d){var m=d&&d.mine;if(!m)return;E('r-lb').textContent='+'+s+' poin untuk '+PNAME+' · peringkat #'+m.rank+' di klasemen '+(MODES[d.b]||'Semua')+' ('+m.pts+' poin)';E('r-lb').hidden=false});
   var B=[{"id": "pergi-ke-mana", "u": "https://lynk.id/academytahfidzonline/1vzgnnlev4ye", "t": "Pergi ke Mana Hafalanku Dulu?", "s": "Renungan & tips buat balikin hafalanmu lagi."}, {"id": "merawat-hafalanmu", "u": "https://lynk.id/academytahfidzonline/7vx5z4zq3z52", "t": "Trik & Hack Merawat Hafalanmu", "s": "Panduan murajaah bagi orang sibuk."}, {"id": "murajaah-planner", "u": "https://lynk.id/academytahfidzonline/kxdqnk240y6g", "t": "Murajaah Planner", "s": "Workbook evaluasi untuk memetakan, merawat, dan memantau hafalan Al-Qur'anmu."}, {"id": "pernah-penghafal", "u": "https://lynk.id/academytahfidzonline/72ge115nvd7m", "t": "Aku Pernah Menjadi Penghafal Al-Qur'an", "s": "Renungan untuk yang pernah dekat dengan hafalan, lalu merasa jauh darinya."}, {"id": "menemani-si-kecil", "u": "https://lynk.id/academytahfidzonline/jql3ywr9w4ek", "t": "Menemani Si Kecil Menghafal Al-Qur'an dari Rumah", "s": "Tips mendampingi anak menghafal Al-Qur'an sejak dini."}];
   var pick=s>=9?['murajaah-planner','Jaga yang sudah kamu raih','Hafalan yang lancar hari ini tetap butuh dirawat. Workbook <i>Murajaah Planner</i> membantumu memetakan, merawat, dan memantau hafalan secara rutin.']:
            s>=5?['merawat-hafalanmu','Biar hafalanmu nggak cuma lancar hari ini','Sibuk tapi tetap ingin hafalan terjaga? <i>Trik & Hack Merawat Hafalanmu</i> adalah panduan murajaah untuk orang sibuk.']:
@@ -392,6 +428,46 @@ function result(){
     var im=document.createElement('img');im.src='/img/'+b.id+'.jpg';im.alt='Sampul e-book '+b.t;im.loading='lazy';a.appendChild(im);M.appendChild(a)});
   show('s-res');
 }
+
+
+/* ===== Klasemen & pengunjung ===== */
+var API='/api/',PID='',PNAME='',NOSKIP=true,D_TOK=null,KLB='all';
+(function(){try{PID=localStorage.getItem('toa-pid')||'';PNAME=localStorage.getItem('toa-name')||''}catch(e){}
+  if(!/^[a-f0-9]{16}$/.test(PID)){var a=new Uint8Array(8);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach(function(_,i){a[i]=Math.random()*256});
+    PID=Array.prototype.map.call(a,function(x){return('0'+x.toString(16)).slice(-2)}).join('');try{localStorage.setItem('toa-pid',PID)}catch(e){}}})();
+function api(path,body){return fetch(API+path,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{}).then(function(r){return r.json()}).then(function(d){if(d&&d.off)throw 0;return d})}
+function whoBar(){var w=E('who');if(!LB_ON)return;w.hidden=false;E('who-t').textContent='';
+  if(PNAME){E('who-t').append('Main sebagai ');var b=document.createElement('b');b.textContent=PNAME;E('who-t').append(b);E('who-btn').textContent='Ganti nama'}
+  else{E('who-t').textContent='Main tanpa nama, skor tidak masuk klasemen.';E('who-btn').textContent='Isi nama'}}
+var LB_ON=false,NM_CB=null;
+function needName(cb){if(!LB_ON||PNAME||!NOSKIP){cb();return}openName(cb)}
+function openName(cb){NM_CB=cb||null;E('nm-in').value=PNAME;E('nm-err').hidden=true;E('nm').hidden=false;setTimeout(function(){E('nm-in').focus()},50)}
+function closeName(){E('nm').hidden=true;var f=NM_CB;NM_CB=null;if(f)f()}
+E('nm-ok').addEventListener('click',function(){var v=E('nm-in').value.replace(/\s+/g,' ').trim();
+  if(v.length<2||!/^[\p{L}\p{M}0-9 .'\-]+$/u.test(v)){E('nm-err').textContent='Pakai 2–20 huruf, tanpa simbol.';E('nm-err').hidden=false;return}
+  PNAME=v.slice(0,20);try{localStorage.setItem('toa-name',PNAME)}catch(e){}NOSKIP=true;whoBar();closeName()});
+E('nm-in').addEventListener('keydown',function(e){if(e.key==='Enter')E('nm-ok').click()});
+E('nm-skip').addEventListener('click',function(){NOSKIP=false;whoBar();closeName()});
+E('who-btn').addEventListener('click',function(){openName(null)});
+function lbRound(mode,cb){if(!LB_ON||!PNAME)return;api('round',{mode:mode}).then(function(d){cb(d.tok)}).catch(function(){})}
+function lbSubmit(tok,score,cb){if(!PNAME)return;api('score',{tok:tok,pid:PID,name:PNAME,score:score}).then(function(d){if(d.err==='name'){E('r-lb').textContent='Nama ini tidak bisa dipakai di klasemen. Ganti nama di menu ya.';E('r-lb').hidden=false;return}cb(d);KLB=d.b||KLB;klRender(d)}).catch(function(){})}
+function klRender(d){if(!d||!d.top)return;var L=E('kl-list');L.textContent='';
+  E('kl-tabs').querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.b===d.b)});
+  if(!d.top.length){var e=document.createElement('li');e.className='empty';e.style.display='block';e.textContent='Belum ada pemain di klasemen ini. Jadilah yang pertama!';L.appendChild(e)}
+  d.top.forEach(function(x,i){var li=document.createElement('li');if(x.me)li.className='me';
+    var r=document.createElement('span');r.className='r';r.textContent=i<3?['🥇','🥈','🥉'][i]:i+1;
+    var n=document.createElement('span');n.className='n';n.textContent=x.name;
+    var p=document.createElement('span');p.className='p';p.textContent=x.pts+' poin';li.append(r,n,p);L.appendChild(li)});
+  var me=E('kl-me');if(d.mine&&d.mine.rank>10){me.textContent='Posisimu: #'+d.mine.rank+' dari '+d.n+' pemain ('+d.mine.pts+' poin).';me.hidden=false}
+  else if(d.n){me.textContent=d.n+' pemain di klasemen ini.';me.hidden=false}else me.hidden=true}
+function klLoad(b){KLB=b;api('score?b='+b+'&me='+PID).then(klRender).catch(function(){})}
+E('kl-tabs').querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){klLoad(b.dataset.b)})});
+(function(){var today=new Date(Date.now()+7*36e5).toISOString().slice(0,10),seen='';try{seen=localStorage.getItem('toa-v')}catch(e){}
+  api('visit',seen===today?null:{}).then(function(d){try{localStorage.setItem('toa-v',today)}catch(e){}
+    LB_ON=true;whoBar();E('klasemen').hidden=false;klLoad('all');
+    var f=function(n){return n.toLocaleString('id-ID')};E('vc').textContent='👀 '+f(d.total)+' kunjungan ke website TOA · '+f(d.today)+' hari ini';E('vc').hidden=false;
+  }).catch(function(){})})();
+var _show=show;show=function(id){_show(id);if(id==='s-menu'&&LB_ON)klLoad(KLB)};
 
 /* ===== Ayat Hari Ini ===== */
 var SITE='tahfidzonline.com/kuis';
@@ -423,14 +499,15 @@ function dcard(){
   E('dc-dots').textContent=st.last===n&&st.res?emo(st.res):'';
   E('dc-go').textContent=done?'Lihat hasil hari ini':(st.last===n&&st.res&&st.res.length?'Lanjutkan':'Main sekarang');
 }
-E('daily-card').addEventListener('click',function(){
-  var n=dayNo();show('s-daily');E('d-title').textContent='Ayat Hari Ini #'+n;E('d-step').textContent='';
+E('daily-card').addEventListener('click',function(){needName(dailyOpen)});
+function dailyOpen(){
+  var n=dayNo();D_TOK=null;var s0=dload();if(!(s0.last===n&&s0.res&&s0.res.length))lbRound('daily',function(t){D_TOK=t});show('s-daily');E('d-title').textContent='Ayat Hari Ini #'+n;E('d-step').textContent='';
   E('d-area').innerHTML='<p class="loading">Membuka mushaf…</p>';
   loadQuran().then(function(){
     var g=buildDaily(n),st=dload();D={n:n,steps:g.steps,chain:g.chain,res:st.last===n&&st.res?st.res.slice():[]};
     if(D.res.length>=3)dresult();else dstep();
   }).catch(function(){E('d-area').innerHTML='<p class="loading">Teks Al-Qur\'an belum termuat. Periksa koneksi, lalu coba lagi.</p>'});
-});
+}
 function dbar(cur){E('d-steps').querySelectorAll('span').forEach(function(sp,k){sp.className=k<D.res.length?(D.res[k]?'ok':'no'):(k===cur?'now':'')})}
 function dstep(){
   var k=D.res.length,q=D.steps[k],A=E('d-area');A.textContent='';
@@ -458,6 +535,7 @@ function dstep(){
 }
 function stats(st){
   if(st.counted===D.n)return;st.counted=D.n;
+  if(D_TOK){lbSubmit(D_TOK,D.res.reduce(function(a,b){return a+b},0),function(){});D_TOK=null}
   st.played=(st.played||0)+1;if(D.res.every(Boolean))st.perfect=(st.perfect||0)+1;
   st.streak=st.prevDay===D.n-1?(st.streak||0)+1:1;st.prevDay=D.n;st.best=Math.max(st.best||0,st.streak);
 }
