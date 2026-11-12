@@ -659,10 +659,10 @@ PROGRAMS.forEach(function(p){
   var c=document.createElement('article'); c.className='prog';
   var st=p.status==='buka'?'<span class="status buka">Pendaftaran dibuka</span>':'<span class="status berjalan">Waiting list</span>';
   c.innerHTML='<div class="top"><h3></h3>'+st+'</div><span class="who"></span><p></p>'+(p.list?'<ul>'+p.list.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ul>':'')+(p.jadwal?'<dl class="jadwal"><dt>Jadwal setoran</dt>'+p.jadwal.map(function(j){return '<dd class="d">'+j[0]+'</dd><dd>'+j[1]+'</dd>'}).join('')+'</dl>':'')+'<button class="pick" type="button">Daftar program ini →</button>';
-  c.querySelector('h3').textContent=p.nama; c.querySelector('.who').textContent=p.who; c.querySelector('p').textContent=p.desc;
+  c.querySelector('h3').textContent=p.nama+' ('+p.kode+p.periode+')'; c.querySelector('.who').textContent=p.who; c.querySelector('p').textContent=p.desc;
   c.querySelector('.pick').addEventListener('click',function(){sel.value=p.id; document.getElementById('f-halaqah').checked=true; update(); document.getElementById('daftar').scrollIntoView({behavior:'smooth'});});
   list.appendChild(c);
-  var o=document.createElement('option'); o.value=p.id; o.textContent=p.nama; sel.appendChild(o);
+  var o=document.createElement('option'); o.value=p.id; o.textContent=p.nama+' ('+p.kode+p.periode+')'; sel.appendChild(o);
 });
 function prog(){return PROGRAMS.find(function(p){return p.id===sel.value})}
 function val(id){return document.getElementById(id).value.trim()}
