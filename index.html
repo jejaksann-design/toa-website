@@ -623,20 +623,20 @@ var PROGRAMS = [
   {id:"30juz", kode:"TO", periode:"100", nama:"Tahfidz Online 30 Juz", who:"Usia 13 tahun ke atas", min:13, max:null,
    desc:"Program hafalan Al-Qur'an 30 juz secara bertahap, dengan target ziyadah dan tasmi' berkala.",
    jadwal:[["Senin–Jumat","Ziyadah"],["Sabtu–Ahad","Murajaah"]],
-   status:"berjalan", grup:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4", waiting:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4"},
+   status:"berjalan", grup:"", waiting:""},
   {id:"murojaah", kode:"MO", periode:"56", nama:"Murojaah Online", who:"Semua usia · minimal hafal 1 juz", min:null, max:null,
    desc:"Menjaga dan menguatkan hafalan yang sudah dimiliki, supaya tidak hilang dan makin mutqin.",
    jadwal:[["Senin–Ahad","Murajaah"],["Tasmi'","Menyesuaikan jadwal"]],
-   status:"berjalan", grup:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4", waiting:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4"},
+   status:"berjalan", grup:"", waiting:""},
   {id:"pilihan", kode:"TOSP", periode:"49", nama:"Tahfidz Surah-Surah Pilihan", who:"Semua usia", min:null, max:null,
    desc:"Menghafal surat-surat yang dekat dengan amalan harian.",
    jadwal:[["Sepekan","3× pertemuan"]],
    list:["Al-Mulk","Al-Waqi'ah","Ar-Rahman","Yasin","dan surat pilihan lainnya"],
-   status:"berjalan", grup:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4", waiting:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4"},
+   status:"berjalan", grup:"", waiting:""},
   {id:"kids", kode:"TOK", periode:"47", nama:"Tahfidz Online for Kids", who:"Usia 6–12 tahun", min:6, max:12,
    desc:"Hafalan bertahap untuk anak, dimulai dari surat-surat pendek, didampingi orang tua.",
    jadwal:[["Senin–Jumat","Ziyadah"],["Sabtu","Murajaah"]],
-   status:"berjalan", grup:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4", waiting:"https://chat.whatsapp.com/BrWS1OVNiRgDdfXdNAUqBh?s=cl&p=i&mlu=4&ilr=4"}
+   status:"berjalan", grup:"", waiting:""}
 ];
 /* Testimoni santri: isi dengan kutipan asli. Section tampil otomatis bila ada isinya.
    Contoh: {teks:"...", nama:"Fatimah", ket:"Santri Murojaah Online · Makassar"} */
@@ -700,12 +700,12 @@ document.getElementById('reg').addEventListener('submit',function(e){
   err.hidden=true;
   var a=document.createElement('a'); a.href='https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(message()); a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
   var after=document.getElementById('after'), gl=document.getElementById('group-link'), link=priv()?'':(p.status==='buka'?p.grup:p.waiting);
-  document.getElementById('after-title').textContent = priv() ? 'Langkah berikutnya: tunggu kabar dari admin' : p.status==='buka' ? 'Langkah berikutnya: gabung grup periode' : 'Langkah berikutnya: gabung grup waiting list';
+  document.getElementById('after-title').textContent = priv() ? 'Langkah berikutnya: tunggu kabar dari admin' : p.status==='buka' ? 'Langkah berikutnya: tunggu kabar dari admin';
   document.getElementById('after-text').textContent = priv()
     ? 'Pastikan pesan ke admin sudah terkirim di WhatsApp. Admin akan menghubungimu untuk mengatur musyrif/musyrifah dan jadwal private.'
     : link
     ? 'Pastikan pesan ke admin sudah terkirim di WhatsApp, lalu bergabung lewat tombol di bawah.'
-    : 'Pastikan pesan ke admin sudah terkirim di WhatsApp. Admin akan mengirimkan link grup kepadamu.';
+    : 'Pastikan pesan ke admin sudah terkirim di WhatsApp. Admin akan menghubungimu untuk langkah selanjutnya.';
   if(link){gl.href=link; gl.textContent=p.status==='buka'?'Gabung grup periode':'Gabung grup waiting list'; gl.hidden=false}else{gl.hidden=true}
   after.hidden=false;
 });
