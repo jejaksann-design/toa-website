@@ -406,6 +406,11 @@ svg.querySelectorAll('.pv').forEach(function(p){p.addEventListener('click',funct
     <span class="eyebrow">Prestasi santri</span>
     <h2>Santri Qudwah <em style="color:var(--green)" id="lb-per"></em></h2>
     <p class="lead">Hasil akhir periode terbaru. Santri bisa mencari namanya lalu tap untuk melihat kartu nilai.</p>
+    <div class="lb-ru" style="background:var(--green-soft);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+      <b>Lulus TO99? Silakan registrasi ulang TO100 🌿</b>
+      <div style="display:flex;flex-wrap:wrap;gap:8px"><a class="btn" href="https://bit.ly/RU_IKH_LAMA" target="_blank" rel="noopener">Form Ikhwan</a><a class="btn" href="https://bit.ly/RU_AKH_LAMA" target="_blank" rel="noopener">Form Akhwat</a></div>
+      <span style="font-size:.88rem">Ada kendala? <a href="https://wa.me/6282314090180?text=Assalamu%27alaikum%20admin%2C%20saya%20ada%20kendala%20registrasi%20ulang%20TO100." target="_blank" rel="noopener">Hubungi admin TOA</a></span>
+    </div>
     <div class="lb-controls">
       <label class="lb-sel" for="lb-per-sel"><span>Periode</span><select id="lb-per-sel"></select></label>
       <div class="lb-seg"><button type="button" id="lb-g-A" aria-pressed="true">Akhwat</button><button type="button" id="lb-g-I" aria-pressed="false">Ikhwan</button></div>
@@ -432,7 +437,7 @@ svg.querySelectorAll('.pv').forEach(function(p){p.addEventListener('click',funct
       <div class="lb-bars" id="lb-c-bars"></div>
       <p class="meta" id="lb-c-meta"></p>
       <button class="lb-certbtn" type="button" id="lb-certbtn">🎓 Lihat syahadah digital</button>
-      <div class="lb-reg"><p>Untuk lanjut ke periode berikutnya, silakan registrasi ulang.</p><a id="lb-c-reg" href="#" target="_blank" rel="noopener"></a><p style="font-size:.8rem;color:var(--muted)">Admin TOA: +62 823-1409-0180</p></div>
+      <div class="lb-reg" id="lb-c-regbox"><p>Untuk lanjut ke periode berikutnya, silakan registrasi ulang lewat form berikut.</p><a id="lb-c-reg" href="#" target="_blank" rel="noopener"></a><p style="font-size:.85rem;margin:0">Ada kendala? <a id="lb-c-adm" href="https://wa.me/6282314090180" target="_blank" rel="noopener">Hubungi admin TOA</a></p></div>
     </div>
   </dialog>
 
@@ -537,7 +542,9 @@ function card(d){
     var el=document.createElement('div');el.className='lb-bar';el.innerHTML='<div class="lbl"><span></span><b></b></div><div class="track"><div class="fill"></div></div>';
     el.querySelector('span').textContent=x[0]+' ('+x[2]+')';el.querySelector('b').textContent=fmt(x[1]);el.querySelector('.fill').style.width=x[1]+'%';b.appendChild(el)});
   E('lb-c-meta').textContent=d.nama+' · '+hkName(d.hk)+' · Peringkat ke-'+d.rank+' dari '+passed().length+' santri '+(A?'akhwat':'ikhwan')+' lulus '+st.per;
-  var r=E('lb-c-reg');r.href='https://wa.me/6282314090180?text='+encodeURIComponent([nx,'Registrasi Ulang',d.nama,d.hk,A?'Akhwat':'Ikhwan'].join(' # '));r.textContent='Registrasi ulang '+nx+' via WhatsApp';
+  var last=SIKLUS.filter(function(p){return DATA[p]}).slice(-1)[0];E('lb-c-regbox').hidden=st.per!==last;
+  var r=E('lb-c-reg');r.href=A?'https://bit.ly/RU_AKH_LAMA':'https://bit.ly/RU_IKH_LAMA';r.textContent='Registrasi ulang '+nx+' (form '+(A?'Akhwat':'Ikhwan')+')';
+  E('lb-c-adm').href='https://wa.me/6282314090180?text='+encodeURIComponent('Assalamu\'alaikum admin, saya '+d.nama+' ('+(A?'Akhwat':'Ikhwan')+', '+hkName(d.hk)+', lulus '+st.per+') ada kendala registrasi ulang '+nx+'.');
   var dl=E('lb-dlg');if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
 }
 E('lb-close').addEventListener('click',function(){var dl=E('lb-dlg');dl.close?dl.close():dl.removeAttribute('open')});
@@ -700,7 +707,7 @@ document.getElementById('reg').addEventListener('submit',function(e){
   err.hidden=true;
   var a=document.createElement('a'); a.href='https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(message()); a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
   var after=document.getElementById('after'), gl=document.getElementById('group-link'), link=priv()?'':(p.status==='buka'?p.grup:p.waiting);
-  document.getElementById('after-title').textContent = priv() ? 'Langkah berikutnya: tunggu kabar dari admin' : p.status==='buka' ? 'Langkah berikutnya: tunggu kabar dari admin';
+  document.getElementById('after-title').textContent = 'Langkah berikutnya: tunggu kabar dari admin';
   document.getElementById('after-text').textContent = priv()
     ? 'Pastikan pesan ke admin sudah terkirim di WhatsApp. Admin akan menghubungimu untuk mengatur musyrif/musyrifah dan jadwal private.'
     : link
