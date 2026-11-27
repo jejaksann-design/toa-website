@@ -406,11 +406,27 @@ svg.querySelectorAll('.pv').forEach(function(p){p.addEventListener('click',funct
     <span class="eyebrow">Prestasi santri</span>
     <h2>Santri Qudwah <em style="color:var(--green)" id="lb-per"></em></h2>
     <p class="lead">Hasil akhir periode terbaru. Santri bisa mencari namanya lalu tap untuk melihat kartu nilai.</p>
-    <div class="lb-ru" style="background:var(--green-soft);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px">
-      <b>Lulus TO99? Silakan registrasi ulang TO100 🌿</b>
-      <div style="display:flex;flex-wrap:wrap;gap:8px"><a class="btn" href="https://bit.ly/RU_IKH_LAMA" target="_blank" rel="noopener">Form Ikhwan</a><a class="btn" href="https://bit.ly/RU_AKH_LAMA" target="_blank" rel="noopener">Form Akhwat</a></div>
-      <span style="font-size:.88rem">Ada kendala? <a href="https://wa.me/6282314090180?text=Assalamu%27alaikum%20admin%2C%20saya%20ada%20kendala%20registrasi%20ulang%20TO100." target="_blank" rel="noopener">Hubungi admin TOA</a></span>
+    <div class="lb-ru" id="lb-ru" style="background:var(--green-soft);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+      <b style="font-size:1.05rem">Gimana hasil akhir antum periode 99?</b>
+      <p style="margin:0">Perjuangan belum berakhir untuk terus istiqamah hingga 30 juz dan mutqin. Bagi antum yang <b>LANJUT</b>, silakan registrasi ulang. Bagi yang belum lulus, terus istiqamah di luar sana.</p>
+      <p style="margin:0">Lengkapi formnya dengan benar dan teliti:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px"><a class="btn" href="https://bit.ly/RU_IKH_LAMA" target="_blank" rel="noopener">👳‍♂️ Form Ikhwan</a><a class="btn" href="https://bit.ly/RU_AKH_LAMA" target="_blank" rel="noopener">🌺 Form Akhwat</a></div>
+      <p style="margin:0">Kemudian selesaikan <b>BUKTI KOMITMEN Rp50.000 atau lebih</b> sebagai bukti keseriusan antum, transfer ke:</p>
+      <div style="background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <span>💰 Bank Syariah Indonesia (BSI)<br><b style="font-size:1.2rem;letter-spacing:.04em">7134679772</b><br>a.n. Ali Akbar</span>
+        <button type="button" class="btn ghost" id="lb-ru-copy">Salin nomor</button>
+      </div>
+      <p style="margin:0">📅 <b>Deadline: Sabtu, 28 November 2026, pukul 22.00 WIB.</b> Lewat dari waktu tersebut belum bisa lanjut ke periode 100.</p>
+      <span style="font-size:.9rem">Ada kendala? <a href="https://wa.me/6282314090180?text=Assalamu%27alaikum%20admin%2C%20saya%20ada%20kendala%20registrasi%20ulang%20TO100." target="_blank" rel="noopener">Hubungi admin TOA</a></span>
+      <p style="margin:0;font-style:italic">Sampai berjumpa di periode 100 dengan semangat baru, target baru, dan hafalan yang mutqin. Aamiin.</p>
     </div>
+<script>
+(function(){var D=Date.parse('2026-11-28T22:00:00+07:00'),box=document.getElementById('lb-ru');
+  if(Date.now()>D){box.hidden=true;window.RU_CLOSED=true}
+  document.getElementById('lb-ru-copy').addEventListener('click',function(){var b=this;
+    function ok(){b.textContent='Tersalin ✓';setTimeout(function(){b.textContent='Salin nomor'},1800)}
+    if(navigator.clipboard)navigator.clipboard.writeText('7134679772').then(ok,function(){});})})();
+</script>
     <div class="lb-controls">
       <label class="lb-sel" for="lb-per-sel"><span>Periode</span><select id="lb-per-sel"></select></label>
       <div class="lb-seg"><button type="button" id="lb-g-A" aria-pressed="true">Akhwat</button><button type="button" id="lb-g-I" aria-pressed="false">Ikhwan</button></div>
@@ -437,7 +453,7 @@ svg.querySelectorAll('.pv').forEach(function(p){p.addEventListener('click',funct
       <div class="lb-bars" id="lb-c-bars"></div>
       <p class="meta" id="lb-c-meta"></p>
       <button class="lb-certbtn" type="button" id="lb-certbtn">🎓 Lihat syahadah digital</button>
-      <div class="lb-reg" id="lb-c-regbox"><p>Untuk lanjut ke periode berikutnya, silakan registrasi ulang lewat form berikut.</p><a id="lb-c-reg" href="#" target="_blank" rel="noopener"></a><p style="font-size:.85rem;margin:0">Ada kendala? <a id="lb-c-adm" href="https://wa.me/6282314090180" target="_blank" rel="noopener">Hubungi admin TOA</a></p></div>
+      <div class="lb-reg" id="lb-c-regbox"><p>Untuk lanjut ke periode berikutnya, silakan registrasi ulang lewat form berikut.</p><a id="lb-c-reg" href="#" target="_blank" rel="noopener"></a><p style="font-size:.88rem;margin:0">Lalu transfer <b>bukti komitmen Rp50.000+</b> ke BSI <b>7134679772</b> a.n. Ali Akbar. Deadline Sabtu, 28 November 2026, 22.00 WIB.</p><p style="font-size:.85rem;margin:0">Ada kendala? <a id="lb-c-adm" href="https://wa.me/6282314090180" target="_blank" rel="noopener">Hubungi admin TOA</a></p></div>
     </div>
   </dialog>
 
@@ -542,7 +558,7 @@ function card(d){
     var el=document.createElement('div');el.className='lb-bar';el.innerHTML='<div class="lbl"><span></span><b></b></div><div class="track"><div class="fill"></div></div>';
     el.querySelector('span').textContent=x[0]+' ('+x[2]+')';el.querySelector('b').textContent=fmt(x[1]);el.querySelector('.fill').style.width=x[1]+'%';b.appendChild(el)});
   E('lb-c-meta').textContent=d.nama+' · '+hkName(d.hk)+' · Peringkat ke-'+d.rank+' dari '+passed().length+' santri '+(A?'akhwat':'ikhwan')+' lulus '+st.per;
-  var last=SIKLUS.filter(function(p){return DATA[p]}).slice(-1)[0];E('lb-c-regbox').hidden=st.per!==last;
+  var last=SIKLUS.filter(function(p){return DATA[p]}).slice(-1)[0];E('lb-c-regbox').hidden=st.per!==last||!!window.RU_CLOSED;
   var r=E('lb-c-reg');r.href=A?'https://bit.ly/RU_AKH_LAMA':'https://bit.ly/RU_IKH_LAMA';r.textContent='Registrasi ulang '+nx+' (form '+(A?'Akhwat':'Ikhwan')+')';
   E('lb-c-adm').href='https://wa.me/6282314090180?text='+encodeURIComponent('Assalamu\'alaikum admin, saya '+d.nama+' ('+(A?'Akhwat':'Ikhwan')+', '+hkName(d.hk)+', lulus '+st.per+') ada kendala registrasi ulang '+nx+'.');
   var dl=E('lb-dlg');if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
